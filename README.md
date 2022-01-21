@@ -1,5 +1,7 @@
 # GardenX
 
-Name: Aldiyar Nurgazin
+# Authors
 
-Name: Serputov Anatoliy
+Aldiyar Nurgazin
+
+Serputov Anatoliy
