@@ -1,6 +1,6 @@
 # GardenX
 
-# Authors
+### Authors
 
 Aldiyar Nurgazin
 
