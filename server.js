@@ -19,7 +19,7 @@ app.get("/", function (req, res) {
     age: 23,
     occupation: "developer",
     company: "Scotiabank",
-    visible: "true"
+    visible: "true",
   };
   res.render("index", {
     data: someData,
