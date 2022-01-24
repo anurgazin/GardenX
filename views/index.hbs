@@ -1,32 +1,51 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
-</head>
-<body>
+    <style>
+
+    </style>
+  </head>
+  <body>
     <h1>Hello World!</h1>
-    <table border='1'>
-    <tr>
+    <table border="1">
+      <tr>
         <th>Name</th>
         <th>Age</th>
         <th>Occupation</th>
         <th>Company</th>
-    </tr>
-    {{#if data.visible}}
+      </tr>
+      {{#if data.visible}}
         <tr>
-            <td>{{data.name}}</td>
-            <td>{{data.age}}</td>
-            <td>{{data.occupation}}</td>
-            <td>{{data.company}}</td>
+          <td>{{data.name}}</td>
+          <td>{{data.age}}</td>
+          <td>{{data.occupation}}</td>
+          <td>{{data.company}}</td>
         </tr>
-    {{else}}
+      {{else}}
         <tr>
-            <td colspan="4">User: '{{data.name}}' has hidden their information</td>
+          <td colspan="4">User: '{{data.name}}' has hidden their information</td>
         </tr>
-    {{/if}}
-</table>
-</body>
+      {{/if}}
+    </table>
+
+    <div class="card">
+      <div class="card-side front">
+        ® Royal Bank
+        <div class="card__text">
+          8293 3412 5976 1254
+          <br />
+          <small> 12/24</small>
+        </div>
+        <img src="" alt="" />
+      </div>
+      <div class="card-side back">
+        <div> Follow for more </div>
+      </div>
+    </div>
+
+  </body>
 </html>
