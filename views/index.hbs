@@ -32,27 +32,69 @@
       {{/if}}
     </table>
 
-    <div class="card">
-      <div class="card-side front">
-        ® Royal Bank
-        <div class="card__text">
-          8293 3412 5976 1254
-          <br />
-          <small> 12/24</small>
-        </div>
-        <img src="" alt="" />
-      </div>
-      <div class="card-side back">
-        <div> Follow for more </div>
-      </div>
+    <div class="page-heading">
+      <h1>Register a new account</h1>
     </div>
-
-<a href="tel:+44703567387625">
-    Call number!
-</a>
-
-<a href="sms:+44703567387625?body=Hello%20there!">
-    Compose SMS!
-</a>
+    <form action="/users/register" ... style="border:1px solid; text-align: center; margin-right:90vw">
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+          <label>First Name</label>
+          <br>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="First Name"
+            id="firstName"
+            name="firstName"
+          />
+        </div>
+      </div>
+      <hr>
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+          <label>Last Name</label>
+          <br>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Last Name"
+            id="LastName"
+            name="LastName"
+          />
+        </div>
+      </div>
+      <hr>
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+          <label>Email Name</label>
+          <br>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Email Name"
+            id="email"
+            name="email"
+          />
+        </div>
+      </div>
+      <hr>
+      <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+          <label>Password</label>
+          <br>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            id="password"
+            name="password"
+          />
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </form>
   </body>
 </html>
