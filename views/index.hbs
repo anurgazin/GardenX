@@ -3,98 +3,85 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="css/registration.css" />
+    <title>Registration</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <table border="1">
-      <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Occupation</th>
-        <th>Company</th>
-      </tr>
-      {{#if data.visible}}
-        <tr>
-          <td>{{data.name}}</td>
-          <td>{{data.age}}</td>
-          <td>{{data.occupation}}</td>
-          <td>{{data.company}}</td>
-        </tr>
-      {{else}}
-        <tr>
-          <td colspan="4">User: '{{data.name}}' has hidden their information</td>
-        </tr>
-      {{/if}}
-    </table>
-
-    <div class="page-heading">
-      <h1>Register a new account</h1>
-    </div>
-    <form action="/myplants" method="post" style="border:1px solid; text-align: center; margin-right:90vw">
-      <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>First Name</label>
-          <br>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="First Name"
-            id="firstName"
-            name="firstName"
-          />
+    <header id="introHeader">
+        <div class="introHeader-inner">
+            <div class="logo">
+                <a href="/">Garden X</a>
+            </div>
+            <div class="hamburger-menu-wrapper">
+                <div class="hamburger-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="menu" style="visibility: hidden">
+                    <nav>
+                        <div class="menu-inner">
+                            <a href="/">Home</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
         </div>
-      </div>
-      <hr>
-      <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>Last Name</label>
-          <br>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Last Name"
-            id="lastName"
-            name="lastName"
-          />
-        </div>
-      </div>
-      <hr>
-      <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>Email Name</label>
-          <br>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Email Name"
-            id="email"
-            name="email"
-          />
-        </div>
-      </div>
-      <hr>
-      <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>Password</label>
-          <br>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Password"
-            id="password"
-            name="password"
-          />
-        </div>
-      </div>
-      <hr>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">Register</button>
-      </div>
-    </form>
+    </header>
+    <main>
+      <div class="hidden-header"></div>
+      <div class="main-inner">
+            <div class="sidePhoto">
+                <img src="/img/spiderman.jpg" alt="">
+            </div>
+            <div class="registration">
+                <div class="registration-inner">
+                    <div class="title">
+                        <h3>Create your account</h3>
+                    </div>
+                    <div class="regForm">
+                      <form action="/myplants" method="POST" id="registrationForm">
+                          <div class="email-input inputForm">
+                            {{#if errorEmailMsg}}
+                            <p class="errorMessage">{{errorEmailMsg}}</p>
+                            {{/if}}
+                            <p class="errorMessage" id="errorMessage_email"></p>
+                            <label for="email">Email Address</label>
+                            <input type="email" name="email" id="email" maxlength="75" placeholder="test@email.com"
+                                required="required">
+                          </div>
+                          <div class="firstName-input inputForm">
+                            <label for="firstName">First name</label>
+                            <input type="text" name="firstName" maxlength="20" id="firstName" required="required"
+                                placeholder="First name">
+                          </div>
+                          <div class="lastName-input inputForm">
+                            <label for="lastName">Last name</label>
+                            <input type="text" name="lastName" maxlength="25" id="lastName" required="required"
+                                placeholder="Last name">
+                          </div>
+                          <div class="password-input inputForm">
+                            {{#if errorPassMsg}}
+                            <p class="errorMessage">{{errorPassMsg}}</p>
+                            {{/if}}
+                            <p class="errorMessage" id="errorMessage_pass">
+                            </p>
+                            <label for="password">Create password</label>
+                            <input type="password" name="password" id="password" required="required">
+                          </div>
+                          <div class="button">
+                            <button type="submit">Sign up</button>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+    <script src="/js/utils/animation.js"></script>
   </body>
 </html>

@@ -6,8 +6,6 @@ var userScheme = require("./schemes/userScheme");
 const hbs = require("express-handlebars");
 var mongoose = require("mongoose");
 
-const HTTP_PORT = process.env.PORT || 8080;
-
 mongoose.Promise = require("bluebird");
 
 const config = require("./config/config");
@@ -23,15 +21,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(express.static(__dirname + "/"));
+// Configurations
+const HTTP_PORT = process.env.PORT || 8080;
 
-function onHttpStart() {
-  console.log("Express http server listening on: " + HTTP_PORT);
-}
+// Setting up paths
+var publicDirPath = path.join(__dirname, '../public');
+var viewsPath = path.join(__dirname, '../views');
+
+// Setup views folder
+app.set('views', viewsPath);
+// Setup static directory to serve
+app.use(express.static(publicDirPath));
 
 app.engine(".hbs", hbs.engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
+// Routes
 app.get("/", function (req, res) {
   var someData = {
     name: "John",
@@ -72,5 +77,10 @@ app.post("/myplants", (req,res)=>{
     console.log(err);
   });
 })
+
+// Callback Function
+function onHttpStart() {
+  console.log("Express http server listening on: " + HTTP_PORT);
+}
 
 app.listen(HTTP_PORT, onHttpStart);

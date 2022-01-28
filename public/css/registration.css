@@ -1,0 +1,192 @@
+@import "./components/__global__.css";
+@import "./components/header.css";
+
+main {
+    z-index: 10;
+    position: relative;
+    height: 100vh;
+    min-height: 100vh;
+    width: 100%;
+    min-width: 100%;
+}
+
+.hidden-header {
+    width:100%;
+    position: relative;
+    height: 10vh;
+}
+.main-inner {
+    position: relative;
+    width:100%;
+    min-width: 100%;
+    height: 90vh;
+    display:flex;
+    flex-direction: row;
+}
+
+.sidePhoto {
+    flex: 1;
+    position: flex;
+}
+
+.sidePhoto img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    filter: brightness(80%);
+}
+
+.registration {
+    flex: 1;
+    position: relative;
+}
+
+.registration-inner {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    margin-top: 5%;
+    flex: 1;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title h3 {
+    font-size: 3.2rem;
+    font-weight: 500;
+}
+
+.signInWith {
+    flex: 0.5;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.signInWith img {
+    width: 5%;
+}
+
+.signInWith p {
+    margin-left: 2.5rem;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #5a5a5a;
+}
+
+.regForm {
+    flex: 4;
+    margin: 5% 0;
+}
+
+.regForm form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.inputForm {
+    display:flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto 0 0;
+}
+.inputForm label {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.birthday-input label {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.birthday-input p {
+    margin: 16px 0;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #828282;
+}
+
+.birthday-input select {
+    width: 20%;
+    margin: 0 1.5rem 0 0;
+    padding: 1rem 1.5rem;
+    border: 0.5px solid #C4C4C4;
+    background-color: #F5F5F5;
+}
+
+.birthday-input > select option {
+    font-size:1.5rem;
+    font-weight: 400;
+}
+input {
+    border:none;
+    border-bottom: 1px solid #C6C6C6;
+    height: 4vh;
+    font-size: 1.7rem;
+    font-weight: 400;
+    padding-left: 8px;
+    color: #464646;
+}
+
+.button button {
+    width: 20%;
+    padding: 1rem 1.5rem;
+    border:none;
+    background-color: #4A4A4A;
+    color: #F5F5F5;
+    font-size: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+footer {
+    margin-top: 0;
+}
+
+.errorMessage {
+    font-weight: 400;
+    font-size: 2rem;
+    color: #D00F0E;
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .user {
+        margin: 16px 16px;
+    }
+    .user > img {
+        width:50%;
+    }
+    .menu-inner a {
+        font-size: 1.8rem;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    .sidePhoto {
+        display:none;
+    }
+    input {
+        font-size: 2rem;
+        height: 5vh;
+    }
+    button {
+        width: 35%!important;
+        height: 4vh;
+        padding: 2.5rem;
+    }
+    .birthday-input select {
+        width: 25%!important;
+    }
+}
