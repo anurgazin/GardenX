@@ -40,7 +40,7 @@
                         <h3>Create your account</h3>
                     </div>
                     <div class="regForm">
-                      <form action="/users/register" method="POST" id="registrationForm">
+                      <form action="/myplants" method="POST" id="registrationForm">
                           <div class="email-input inputForm">
                             {{#if errorEmailMsg}}
                             <p class="errorMessage">{{errorEmailMsg}}</p>
@@ -51,13 +51,13 @@
                                 required="required">
                           </div>
                           <div class="firstName-input inputForm">
-                            <label for="fname">First name</label>
-                            <input type="text" name="fname" maxlength="20" id="fname" required="required"
+                            <label for="firstName">First name</label>
+                            <input type="text" name="firstName" maxlength="20" id="firstName" required="required"
                                 placeholder="First name">
                           </div>
                           <div class="lastName-input inputForm">
-                            <label for="lname">Last name</label>
-                            <input type="text" name="lname" maxlength="25" id="lname" required="required"
+                            <label for="LastName">Last name</label>
+                            <input type="text" name="LastName" maxlength="25" id="LastName" required="required"
                                 placeholder="Last name">
                           </div>
                           <div class="password-input inputForm">
@@ -66,8 +66,8 @@
                             {{/if}}
                             <p class="errorMessage" id="errorMessage_pass">
                             </p>
-                            <label for="pass">Create password</label>
-                            <input type="password" name="pass" id="pass" required="required">
+                            <label for="password">Create password</label>
+                            <input type="password" name="password" id="password" required="required">
                           </div>
                           <div class="button">
                             <button type="submit">Sign up</button>
