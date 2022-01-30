@@ -3,8 +3,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/registration.css" />
     <title>Login</title>
+=======
+    <link rel="stylesheet" href="css/login.css" />
+    <title>Registration</title>
+>>>>>>> ef9c85d4b7c385a19ec7279aca46911206f3ca25
   </head>
   <body>
     <header id="introHeader">
@@ -32,7 +37,7 @@
       <div class="hidden-header"></div>
       <div class="main-inner">
             <div class="sidePhoto">
-                <img src="/img/spiderman.jpg" alt="">
+                <img src="/img/plant_image_login.jpg" alt="">
             </div>
             <div class="registration">
                 <div class="registration-inner">
@@ -45,22 +50,18 @@
                             {{#if errorMsg}}
                             <p class="errorMessage">{{errorMsg}}</p>
                             {{/if}}
-                            <p class="errorMessage" id="errorMessage_email"></p>
+                            <p class="errorMessage" id="errorMessage"></p>
                             <label for="email">Email Address</label>
-                            <input type="email" name="email" id="email" maxlength="75" placeholder="test@email.com"
-                                required="required">
+                            <input type="email" name="email" id="email" maxlength="75" placeholder="test@email.com">
                           </div>
                           <div class="password-input inputForm">
-                            {{#if errorPassMsg}}
-                            <p class="errorMessage">{{errorPassMsg}}</p>
-                            {{/if}}
-                            <p class="errorMessage" id="errorMessage_pass">
-                            </p>
-                            <label for="Password"> password</label>
-                            <input type="password" name="password" id="password" required="required">
+                            <label for="Password">Password</label>
+                            <input type="password" name="password" id="password">
+                            <a id="forgotPassword">Forgot password</a>
+                            <a href="/registration">Don't have an account?</a>
                           </div>
                           <div class="button">
-                            <button type="submit">Sign In</button>
+                            <button type="submit">Log In</button>
                           </div>
                       </form>
                     </div>

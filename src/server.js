@@ -56,7 +56,7 @@ app.use(
 
 // Routes
 app.get("/", function (req, res) {
-  res.render("index", {
+  res.render("login", {
     layout: false,
   });
 });
@@ -70,6 +70,11 @@ app.get("/login", (req, res) => {
     layout: false,
   });
 });
+app.get("/registration",(req,res)=>{
+  res.render("register",{
+    layout: false
+  })
+})
 
 app.post("/login", async (req, res) => {
   const username = req.body.email;
@@ -88,11 +93,10 @@ app.post("/login", async (req, res) => {
       isAdmin: found.isAdmin,
       email: found.email,
     };
-    console.log(req.session.user)
     res.render("myplants", { user: req.session.user, layout: false });
   } catch (e) {
     res.render("login", {
-      errorMsg: "login does not exist!",
+      errorMsg: "Login or Password is not correct!",
       layout: false,
     });
   }
