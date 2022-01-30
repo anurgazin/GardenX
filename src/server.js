@@ -3,6 +3,7 @@ const app = express();
 var path = require("path");
 var bodyParser = require("body-parser");
 var userScheme = require("./schemes/userScheme");
+const clientSessions = require("client-sessions");
 const hbs = require("express-handlebars");
 var mongoose = require("mongoose");
 
@@ -35,17 +36,27 @@ app.use(express.static(publicDirPath));
 app.engine(".hbs", hbs.engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
+
+function ensureLogin(req, res, next) {
+  if (!req.session.user) {
+    res.redirect("/login");
+  } else {
+    next();
+  }
+}
+
+app.use(
+  clientSessions({
+    cookieName: "session",
+    secret: "super_secret_for_gardenX",
+    duration: 5 * 60 * 1000, //5 min
+    activeDuration: 1000 * 60, //1min
+  })
+);
+
 // Routes
 app.get("/", function (req, res) {
-  var someData = {
-    name: "John",
-    age: 23,
-    occupation: "developer",
-    company: "Scotiabank",
-    visible: "true",
-  };
   res.render("index", {
-    data: someData,
     layout: false,
   });
 });
@@ -59,6 +70,36 @@ app.get("/login", (req, res) => {
     layout: false,
   });
 });
+
+app.post("/login", async (req, res) => {
+  const username = req.body.email;
+  const password = req.body.password;
+  if (username === "" || password === "") {
+    return res.render("login", {
+      errorMsg: "Missing Credentials.",
+      layout: false,
+    });
+  }
+  try {
+    const found = await userScheme.findByCredentials(username, password);
+    req.session.user = {
+      firstName: found.firstName,
+      lastName: found.lastName,
+      isAdmin: found.isAdmin,
+      email: found.email,
+    };
+    console.log(req.session.user)
+    res.render("myplants", { user: req.session.user, layout: false });
+  } catch (e) {
+    res.render("login", {
+      errorMsg: "login does not exist!",
+      layout: false,
+    });
+  }
+});
+
+
+
 app.post("/myplants", (req, res) => {
   const FORM_DATA = req.body;
   var user = new userScheme({
@@ -73,7 +114,7 @@ app.post("/myplants", (req, res) => {
       console.log(response);
       console.log("I am here");
       res.render("myplants", {
-        data: FORM_DATA,
+        user: FORM_DATA,
         layout: false,
       });
     })

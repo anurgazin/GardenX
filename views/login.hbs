@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/registration.css" />
-    <title>Registration</title>
+    <title>Login</title>
   </head>
   <body>
     <header id="introHeader">
@@ -40,10 +40,10 @@
                         <h3>Login into your account</h3>
                     </div>
                     <div class="regForm">
-                      <form action="/myplants" method="POST" id="registrationForm">
+                      <form action="/login" method="POST" id="registrationForm">
                           <div class="email-input inputForm">
-                            {{#if errorEmailMsg}}
-                            <p class="errorMessage">{{errorEmailMsg}}</p>
+                            {{#if errorMsg}}
+                            <p class="errorMessage">{{errorMsg}}</p>
                             {{/if}}
                             <p class="errorMessage" id="errorMessage_email"></p>
                             <label for="email">Email Address</label>
