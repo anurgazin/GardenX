@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/registration.css" />
+    <link rel="stylesheet" href="css/login.css" />
     <title>Registration</title>
   </head>
   <body>
@@ -32,7 +32,7 @@
       <div class="hidden-header"></div>
       <div class="main-inner">
             <div class="sidePhoto">
-                <img src="/img/spiderman.jpg" alt="">
+                <img src="/img/plant_image_login.jpg" alt="">
             </div>
             <div class="registration">
                 <div class="registration-inner">
@@ -56,11 +56,15 @@
                             {{/if}}
                             <p class="errorMessage" id="errorMessage_pass">
                             </p>
-                            <label for="Password"> password</label>
+                            <label for="Password">Password</label>
                             <input type="password" name="password" id="password" required="required">
+                            <a id="forgotPassword">Forgot password</a>
                           </div>
                           <div class="button">
-                            <button type="submit">Sign In</button>
+                            <form id="registrationButton" action="/registration" method="get">
+                              <button>Register</button>
+                            </form>
+                            <button type="submit">Log In</button>
                           </div>
                       </form>
                     </div>
