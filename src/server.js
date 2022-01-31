@@ -155,7 +155,7 @@ app.post("/forgot", async (req,res)=>{
 
     console.log(link)
     res.render("forgot",{
-      conMsg: "Link has been sent",
+      conMsg: `Link has been sent to ${found.email}`,
       layout: false,      
     })
   }
@@ -182,6 +182,7 @@ app.get("/reset-pwd/:id/:token", async (req,res)=>{
     res.render('resetpwd',{
       user: req.session.user,
       token: token,
+      style: "/css/forgot_pass.css",
       layout: false
     });
   } catch (e) {
