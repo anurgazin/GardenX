@@ -4,6 +4,7 @@ var path = require("path");
 var bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 var nodemailer = require("nodemailer");
+const smtpTransport = require('nodemailer-smtp-transport');
 const jwt = require("jsonwebtoken");
 var userScheme = require("./schemes/userScheme");
 const clientSessions = require("client-sessions");
@@ -49,14 +50,17 @@ function ensureLogin(req, res, next) {
   }
 }
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
-  host: 'smtp.gmail.com',
+var transporter = nodemailer.createTransport(
+  smtpTransport({
+  service: "yandex",
+  host: 'smtp.yandex.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: "vacationroyal4", //your email account
-    pass: "vacROYAL@1984", // your password
+    user: "x.garden@yandex.ru", //your email account
+    pass: "Prj_666_GardenX", // your password
   },
-});
+}));
 
 
 app.use(
@@ -132,13 +136,13 @@ app.post("/forgot", async (req,res)=>{
       id: found._id
     }
     const token = jwt.sign(payload, secret, {expiresIn: '15m'})
-    const link = `localhost:${HTTP_PORT}/reset-pwd/${found._id}/${token}`
+    const link = `http://localhost:${HTTP_PORT}/reset-pwd/${found._id}/${token}`
 
     var mailOptions = {
-      from: "vacationroyal4@gmail.com",
+      from: "x.garden@yandex.ru",
       to: found.email,
       subject: "Password Change",
-      html: "Hello,<br> Please Click on the link to change your password.<br><a href="+link+">Click here</a>"
+      html: `Hello,<br> Please Click on the link to change your password.<br><a href="${link}">Click here</a>`
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
