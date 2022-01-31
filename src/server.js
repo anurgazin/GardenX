@@ -14,7 +14,6 @@ var mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const config = require("./config/config");
-const { findById } = require("./schemes/userScheme");
 const connectionString = config.database_connection_string;
 
 mongoose.connect(connectionString);
