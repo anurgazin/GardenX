@@ -51,4 +51,19 @@ userScheme.statics.findByCredentials = async (email, password) => {
   }
   return user;
 };
+userScheme.statics.findByEmail = async (email)=> {
+  const user = await mongoose.model("users", userScheme).findOne({ email });
+  if (!user) {
+    throw new Error("User is not exist");
+  }
+  return user;
+}
+userScheme.statics.findById = async (_id)=> {
+  const user = await mongoose.model("users", userScheme).findOne({ _id });
+  if (!user) {
+    console.log("Error in FindById")
+    throw new Error("User is not exist");
+  }
+  return user;
+}
 module.exports = mongoose.model("users", userScheme, "Users");

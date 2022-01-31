@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+</head>
+<body>
+    {{#if conMsg}}
+        <h2>{{conMsg}}</h2>
+    {{else}}
+    <form action="/forgot" method="post">
+        {{#if errorMsg}}
+        <h2>{{errorMsg}}</h2>
+        {{/if}}
+        <label for="email">Please, enter your email</label>
+        <input type="email" name="email" id="email">
+        <br>
+        <input type="submit" name="submit" id="submit">
+    </form>
+    {{/if}}
+</body>
+</html>

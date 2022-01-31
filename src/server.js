@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 var path = require("path");
 var bodyParser = require("body-parser");
+const bcrypt = require("bcryptjs");
+var nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 var userScheme = require("./schemes/userScheme");
 const clientSessions = require("client-sessions");
 const hbs = require("express-handlebars");
@@ -10,6 +13,7 @@ var mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const config = require("./config/config");
+const { findById } = require("./schemes/userScheme");
 const connectionString = config.database_connection_string;
 
 mongoose.connect(connectionString);
@@ -45,6 +49,16 @@ function ensureLogin(req, res, next) {
   }
 }
 
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: 'smtp.gmail.com',
+  auth: {
+    user: "vacationroyal4", //your email account
+    pass: "vacROYAL@1984", // your password
+  },
+});
+
+
 app.use(
   clientSessions({
     cookieName: "session",
@@ -53,6 +67,7 @@ app.use(
     activeDuration: 1000 * 60, //1min
   })
 );
+
 
 // Routes
 app.get("/", function (req, res) {
@@ -102,7 +117,99 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/forgot",(req,res)=>{
+  res.render("forgot",{
+    layout: false
+  })
+})
+app.post("/forgot", async (req,res)=>{
+  const email = req.body.email;
+  try{
+    const found = await userScheme.findByEmail(email);
+    const secret = process.env.JWT_SECRET + found.password;
+    const payload = {
+      email: found.email,
+      id: found._id
+    }
+    const token = jwt.sign(payload, secret, {expiresIn: '15m'})
+    const link = `localhost:${HTTP_PORT}/reset-pwd/${found._id}/${token}`
 
+    var mailOptions = {
+      from: "vacationroyal4@gmail.com",
+      to: found.email,
+      subject: "Password Change",
+      html: "Hello,<br> Please Click on the link to change your password.<br><a href="+link+">Click here</a>"
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("ERROR: " + error);
+      } else {
+        console.log("SUCCESS: " + info.response);
+      }
+    });
+
+
+
+    console.log(link)
+    res.render("forgot",{
+      conMsg: "Link has been sent",
+      layout: false,      
+    })
+  }
+  catch(e){
+    res.render("forgot", {
+      errorMsg: "User is not exist",
+      layout: false,
+    });
+  }
+})
+app.get("/reset-pwd/:id/:token", async (req,res)=>{
+  const {id, token} = req.params;
+  try {
+    const found = await userScheme.findById(id);
+    req.session.user = {
+      _id: found._id,
+      firstName: found.firstName,
+      lastName: found.lastName,
+      isAdmin: found.isAdmin,
+      email: found.email,
+    }
+    const secret = process.env.JWT_SECRET + found.password;
+    const payload = jwt.verify(token, secret);
+    res.render('resetpwd',{
+      user: req.session.user,
+      token: token,
+      layout: false
+    });
+  } catch (e) {
+    res.render("forgot", {
+      errorMsg: "User is not exist",
+      layout: false,
+    });
+  }
+})
+
+app.post("/reset-pwd/:id/:token", async (req,res)=>{
+  const {id, token} = req.params;
+  let password = req.body.password;
+  try {
+    const found = await userScheme.findById(id);
+    const secret = process.env.JWT_SECRET + found.password;
+    const payload = jwt.verify(token, secret);
+    password = await bcrypt.hash(password, 10);
+    console.log(password);
+    await userScheme.findByIdAndUpdate(found._id,{
+      password: password
+    })
+    res.redirect("/login")
+  } catch (e) {
+    console.log(e)
+    res.render("forgot", {
+      errorMsg: "User is not exist",
+      layout: false,
+    });
+  }
+})
 
 app.post("/myplants", (req, res) => {
   const FORM_DATA = req.body;
