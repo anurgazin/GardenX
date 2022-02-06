@@ -7,6 +7,7 @@ var nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
 const jwt = require("jsonwebtoken");
 var userScheme = require("./schemes/userScheme");
+var articleSchema = require("./schemes/articleScheme");
 const clientSessions = require("client-sessions");
 const hbs = require("express-handlebars");
 var mongoose = require("mongoose");
@@ -57,7 +58,7 @@ var transporter = nodemailer.createTransport(
   secure: true,
   auth: {
     user: "x.garden@yandex.ru", //your email account
-    pass: "Prj_666_GardenX", // your password
+    pass: "Prj_666_Garden", // your password
   },
 }));
 
@@ -80,6 +81,7 @@ app.get("/", function (req, res) {
 });
 app.get("/myplants", (req, res) => {
   res.render("myplants", {
+    user: req.session.user,
     layout: false,
   });
 });
@@ -91,8 +93,20 @@ app.get("/login", (req, res) => {
 app.get("/registration",(req,res)=>{
   res.render("register",{
     layout: false
-  })
-})
+  });
+});
+app.get("/main",(req,res)=>{
+  articleSchema
+  .find({})
+  .lean()
+  .exec()
+  .then((articles)=>{
+    res.render("main",{
+      article: articles,
+      layout: false
+    });
+  });
+});
 
 app.post("/login", async (req, res) => {
   const username = req.body.email;
