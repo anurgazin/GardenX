@@ -77,7 +77,7 @@ app.use(
   clientSessions({
     cookieName: "session",
     secret: "super_secret_for_gardenX",
-    duration: 5 * 60 * 1000, //5 min
+    duration: 10 * 60 * 1000, //5 min
     activeDuration: 1000 * 60, //1min
   })
 );
