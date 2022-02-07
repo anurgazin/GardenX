@@ -4,10 +4,10 @@ var path = require("path");
 var bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 var nodemailer = require("nodemailer");
-const smtpTransport = require('nodemailer-smtp-transport');
+const smtpTransport = require("nodemailer-smtp-transport");
 const jwt = require("jsonwebtoken");
 var userScheme = require("./schemes/userScheme");
-var articleSchema = require("./schemes/articleScheme");
+var articleScheme = require("./schemes/articleScheme");
 const clientSessions = require("client-sessions");
 const hbs = require("express-handlebars");
 var mongoose = require("mongoose");
@@ -41,7 +41,6 @@ app.use(express.static(publicDirPath));
 app.engine(".hbs", hbs.engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
-
 function ensureLogin(req, res, next) {
   if (!req.session.user) {
     res.redirect("/login");
@@ -52,16 +51,16 @@ function ensureLogin(req, res, next) {
 
 var transporter = nodemailer.createTransport(
   smtpTransport({
-  service: "yandex",
-  host: 'smtp.yandex.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: "x.garden@yandex.ru", //your email account
-    pass: "Prj_666_Garden", // your password
-  },
-}));
-
+    service: "yandex",
+    host: "smtp.yandex.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "x.garden@yandex.ru", //your email account
+      pass: "Prj_666_Garden", // your password
+    },
+  })
+);
 
 app.use(
   clientSessions({
@@ -72,13 +71,17 @@ app.use(
   })
 );
 
-
 // Routes
 app.get("/", function (req, res) {
-  res.render("login", {
+  res.render("main", {
     layout: false,
   });
 });
+app.get("/addArticle", ensureLogin, (req,res)=>{
+  res.render("addArticle",{
+    layout:false
+  })
+})
 app.get("/myplants", (req, res) => {
   res.render("myplants", {
     user: req.session.user,
@@ -90,22 +93,27 @@ app.get("/login", (req, res) => {
     layout: false,
   });
 });
-app.get("/registration",(req,res)=>{
-  res.render("register",{
-    layout: false
+app.get("/registration", (req, res) => {
+  res.render("register", {
+    layout: false,
   });
 });
-app.get("/main",(req,res)=>{
-  articleSchema
-  .find({})
-  .lean()
-  .exec()
-  .then((articles)=>{
-    res.render("main",{
-      article: articles,
-      layout: false
-    });
+app.get("/forgot", (req, res) => {
+  res.render("forgot", {
+    layout: false,
   });
+});
+app.get("/main", (req, res) => {
+  articleScheme
+    .find({})
+    .lean()
+    .exec()
+    .then((articles) => {
+      res.render("main", {
+        article: articles,
+        layout: false,
+      });
+    });
 });
 
 app.post("/login", async (req, res) => {
@@ -134,28 +142,23 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/forgot",(req,res)=>{
-  res.render("forgot",{
-    layout: false
-  })
-})
-app.post("/forgot", async (req,res)=>{
+app.post("/forgot", async (req, res) => {
   const email = req.body.email;
-  try{
+  try {
     const found = await userScheme.findByEmail(email);
     const secret = process.env.JWT_SECRET + found.password;
     const payload = {
       email: found.email,
-      id: found._id
-    }
-    const token = jwt.sign(payload, secret, {expiresIn: '15m'})
-    const link = `http://localhost:${HTTP_PORT}/reset-pwd/${found._id}/${token}`
+      id: found._id,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+    const link = `http://localhost:${HTTP_PORT}/reset-pwd/${found._id}/${token}`;
 
     var mailOptions = {
       from: "x.garden@yandex.ru",
       to: found.email,
       subject: "Password Change",
-      html: `Hello,<br> Please Click on the link to change your password.<br><a href="${link}">Click here</a>`
+      html: `Hello,<br> Please Click on the link to change your password.<br><a href="${link}">Click here</a>`,
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -165,23 +168,20 @@ app.post("/forgot", async (req,res)=>{
       }
     });
 
-
-
-    console.log(link)
-    res.render("forgot",{
+    console.log(link);
+    res.render("forgot", {
       conMsg: `Link has been sent to ${found.email}`,
-      layout: false,      
-    })
-  }
-  catch(e){
+      layout: false,
+    });
+  } catch (e) {
     res.render("forgot", {
       errorMsg: "User is not exist",
       layout: false,
     });
   }
-})
-app.get("/reset-pwd/:id/:token", async (req,res)=>{
-  const {id, token} = req.params;
+});
+app.get("/reset-pwd/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
   try {
     const found = await userScheme.findById(id);
     req.session.user = {
@@ -190,14 +190,14 @@ app.get("/reset-pwd/:id/:token", async (req,res)=>{
       lastName: found.lastName,
       isAdmin: found.isAdmin,
       email: found.email,
-    }
+    };
     const secret = process.env.JWT_SECRET + found.password;
     const payload = jwt.verify(token, secret);
-    res.render('resetpwd',{
+    res.render("resetpwd", {
       user: req.session.user,
       token: token,
       style: "/css/forgot_pass.css",
-      layout: false
+      layout: false,
     });
   } catch (e) {
     res.render("forgot", {
@@ -205,10 +205,10 @@ app.get("/reset-pwd/:id/:token", async (req,res)=>{
       layout: false,
     });
   }
-})
+});
 
-app.post("/reset-pwd/:id/:token", async (req,res)=>{
-  const {id, token} = req.params;
+app.post("/reset-pwd/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
   let password = req.body.password;
   try {
     const found = await userScheme.findById(id);
@@ -216,20 +216,38 @@ app.post("/reset-pwd/:id/:token", async (req,res)=>{
     const payload = jwt.verify(token, secret);
     password = await bcrypt.hash(password, 10);
     console.log(password);
-    await userScheme.findByIdAndUpdate(found._id,{
-      password: password
-    })
-    res.redirect("/login")
+    await userScheme.findByIdAndUpdate(found._id, {
+      password: password,
+    });
+    res.redirect("/login");
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.render("forgot", {
       errorMsg: "User is not exist",
       layout: false,
     });
   }
+});
+
+app.post("/createArticle", ensureLogin, (req, res)=>{
+  const FORM_DATA = req.body;
+  var article = new articleScheme({
+    title: FORM_DATA.title,
+    text: FORM_DATA.desc,
+    author: req.session.user.email
+  })
+  article
+  .save()
+  .then((response)=>{
+    console.log(response);
+    res.redirect("/main");
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 })
 
-app.post("/myplants", (req, res) => {
+app.post("/createAccount", (req, res) => {
   const FORM_DATA = req.body;
   var user = new userScheme({
     firstName: FORM_DATA.firstName,
@@ -243,7 +261,7 @@ app.post("/myplants", (req, res) => {
       console.log(response);
       console.log("I am here");
       res.render("myplants", {
-        user: FORM_DATA,
+        user: req.session.user,
         layout: false,
       });
     })

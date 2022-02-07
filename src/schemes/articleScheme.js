@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 mongoose.Promise = require("bluebird");
 
-var articleSchema = new Schema({
+var articleScheme = new Schema({
   title: {
     type: String,
     required: true
@@ -24,4 +24,4 @@ var articleSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("articles", articleSchema, "Articles");
+module.exports = mongoose.model("articles", articleScheme, "Articles");
