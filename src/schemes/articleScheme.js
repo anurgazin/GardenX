@@ -17,6 +17,7 @@ var articleScheme = new Schema({
   },
   votes: {
       type: Number,
+      default: 0
   },
   fileName: {
     default: '',

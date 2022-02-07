@@ -50,6 +50,13 @@ function ensureLogin(req, res, next) {
   }
 }
 
+var hbshelper = hbs.create({})
+
+hbshelper.handlebars.registerHelper('trimString', function(passedString) {
+  var theString = passedString.substring(0,250);
+  return new hbshelper.handlebars.SafeString(theString)
+});
+
 
 const STORAGE = multer.diskStorage({
   destination: "./public/img/uploadedImg/",
@@ -85,9 +92,7 @@ app.use(
 
 // Routes
 app.get("/", function (req, res) {
-  res.render("main", {
-    layout: false,
-  });
+  res.redirect("/main")
 });
 app.get("/addArticle", ensureLogin, (req,res)=>{
   res.render("addArticle",{
@@ -121,6 +126,7 @@ app.get("/main", (req, res) => {
     .lean()
     .exec()
     .then((articles) => {
+      console.log(articles);
       res.render("main", {
         article: articles,
         layout: false,
@@ -243,8 +249,9 @@ app.post("/reset-pwd/:id/:token", async (req, res) => {
 
 app.post("/createArticle", ensureLogin, UPLOAD.single("photo"),(req, res)=>{
   const FORM_DATA = req.body;
-  const FORM_FILE = req.file;
+  var FORM_FILE = req.file;
   console.log(FORM_FILE.filename);
+  FORM_FILE.path = FORM_FILE.path.replace('public','');
   var article = new articleScheme({
     title: FORM_DATA.title,
     text: FORM_DATA.desc,

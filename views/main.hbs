@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 
 <body>
@@ -31,25 +31,26 @@
            </div>
         </div>
         <div class="news_feed">
+         {{#each article}}
           <div class="article_card">
             <div class="article_card_header">
                 <div class="article_card_header_title">
-                  <h1>Title Example</h1>
+                  <h1>{{title}}</h1>
                 </div>
                 <div class="article_card_header_info">
                   <p>10/01/2022</p>
                 </div>
             </div>
             <div class="article_card_image">
-              <img src="/img/spiderman.jpg" alt="">
+              <img src="../{{fileName}}" alt="Image">
             </div>
             <div class="article_card_description">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt lorem et gravida luctus. Phasellus egenec magna. Aenean nec sem in nunc gravida feugiat ac vcu blandit tortor, condimentum lobortis sem ipsum sed urna. In fringilla lobortis mauris, eget varius quam efficitur id. Proin in sapien nec diam porttitor euismod. Praesent diam nisl, gravida in tortor at, consectetur ullamcorper lorem....</p>
+              <p>{{trimString text}}...</p>
               <a>Show more</a>
             </div>
             <div class="article_card_footer">
               <div class="article_card_footer_votes">
-                <p>Votes: <b>1000</b></p>
+                <p>Votes: <b>{{votes}}</b></p>
                 <button>Up vote</button>
                 <button>Down vote</button>
               </div>
@@ -58,60 +59,7 @@
               </div>
             </div>
           </div>
-          <div class="article_card">
-            <div class="article_card_header">
-                <div class="article_card_header_title">
-                  <h1>Title Example</h1>
-                </div>
-                <div class="article_card_header_info">
-                  <p>10/01/2022</p>
-                </div>
-            </div>
-            <div class="article_card_image">
-              <img src="/img/spiderman.jpg" alt="">
-            </div>
-            <div class="article_card_description">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt lorem et gravida luctus. Phasellus egenec magna. Aenean nec sem in nunc gravida feugiat ac vcu blandit tortor, condimentum lobortis sem ipsum sed urna. In fringilla lobortis mauris, eget varius quam efficitur id. Proin in sapien nec diam porttitor euismod. Praesent diam nisl, gravida in tortor at, consectetur ullamcorper lorem....</p>
-              <a>Show more</a>
-            </div>
-            <div class="article_card_footer">
-              <div class="article_card_footer_votes">
-                <p>Votes: <b>1000</b></p>
-                <button>Up vote</button>
-                <button>Down vote</button>
-              </div>
-              <div class="article_card_footer_edit_remove_options">
-                <button>Edit/Remove</button>
-              </div>
-            </div>
-          </div>
-          <div class="article_card">
-            <div class="article_card_header">
-                <div class="article_card_header_title">
-                  <h1>Title Example</h1>
-                </div>
-                <div class="article_card_header_info">
-                  <p>10/01/2022</p>
-                </div>
-            </div>
-            <div class="article_card_image">
-              <img src="/img/spiderman.jpg" alt="">
-            </div>
-            <div class="article_card_description">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt lorem et gravida luctus. Phasellus egenec magna. Aenean nec sem in nunc gravida feugiat ac vcu blandit tortor, condimentum lobortis sem ipsum sed urna. In fringilla lobortis mauris, eget varius quam efficitur id. Proin in sapien nec diam porttitor euismod. Praesent diam nisl, gravida in tortor at, consectetur ullamcorper lorem....</p>
-              <a>Show more</a>
-            </div>
-            <div class="article_card_footer">
-              <div class="article_card_footer_votes">
-                <p>Votes: <b>1000</b></p>
-                <button>Up vote</button>
-                <button>Down vote</button>
-              </div>
-              <div class="article_card_footer_edit_remove_options">
-                <button>Edit/Remove</button>
-              </div>
-            </div>
-          </div>
+          {{/each}}
         </div>
         <div class="menu_side_b">
             <div class="menu_side_b_links">
