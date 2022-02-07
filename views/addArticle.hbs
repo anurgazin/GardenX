@@ -7,9 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/createArticle" method="post">
+    <form action="/createArticle" method="post" enctype="multipart/form-data">
         <label for="title">Title</label><br />
         <input type="text" id="title" name="title" required /><br />
+        <label for="photo">Photo Upload</label><br />
+        <input type="file" id="photo" name="photo" /><br />
         <label for="desc">Description</label><br />
         <textarea id="desc" name="desc" placeholder="Article Text"></textarea><br />
         <input type="submit"  value="create" />

@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 var userScheme = require("./schemes/userScheme");
 var articleScheme = require("./schemes/articleScheme");
 const clientSessions = require("client-sessions");
+var multer = require("multer");
 const hbs = require("express-handlebars");
 var mongoose = require("mongoose");
 
@@ -48,6 +49,17 @@ function ensureLogin(req, res, next) {
     next();
   }
 }
+
+
+const STORAGE = multer.diskStorage({
+  destination: "./public/img/uploadedImg/",
+  filename: function (req, file, cb) {
+    console.log("Uploading Photo");
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const UPLOAD = multer({ storage: STORAGE });
 
 var transporter = nodemailer.createTransport(
   smtpTransport({
@@ -229,11 +241,14 @@ app.post("/reset-pwd/:id/:token", async (req, res) => {
   }
 });
 
-app.post("/createArticle", ensureLogin, (req, res)=>{
+app.post("/createArticle", ensureLogin, UPLOAD.single("photo"),(req, res)=>{
   const FORM_DATA = req.body;
+  const FORM_FILE = req.file;
+  console.log(FORM_FILE.filename);
   var article = new articleScheme({
     title: FORM_DATA.title,
     text: FORM_DATA.desc,
+    fileName: FORM_FILE.path,
     author: req.session.user.email
   })
   article
