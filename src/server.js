@@ -85,7 +85,7 @@ app.use(
   clientSessions({
     cookieName: "session",
     secret: "super_secret_for_gardenX",
-    duration: 5 * 60 * 1000, //5 min
+    duration: 10 * 60 * 1000, //5 min
     activeDuration: 1000 * 60, //1min
   })
 );
@@ -94,11 +94,12 @@ app.use(
 app.get("/", function (req, res) {
   res.redirect("/main")
 });
-app.get("/addArticle", ensureLogin, (req,res)=>{
-  res.render("addArticle",{
-    layout:false
-  })
-})
+app.get("/addArticle", ensureLogin, (req, res) => {
+  res.render("addArticle", {
+    style: "/css/forgot_pass.css",
+    layout: false,
+  });
+});
 app.get("/myplants", (req, res) => {
   res.render("myplants", {
     user: req.session.user,
@@ -247,7 +248,7 @@ app.post("/reset-pwd/:id/:token", async (req, res) => {
   }
 });
 
-app.post("/createArticle", ensureLogin, UPLOAD.single("photo"),(req, res)=>{
+app.post("/createArticle", ensureLogin, UPLOAD.single("photo"), (req, res) => {
   const FORM_DATA = req.body;
   var FORM_FILE = req.file;
   console.log(FORM_FILE.filename);
@@ -256,18 +257,18 @@ app.post("/createArticle", ensureLogin, UPLOAD.single("photo"),(req, res)=>{
     title: FORM_DATA.title,
     text: FORM_DATA.desc,
     fileName: FORM_FILE.path,
-    author: req.session.user.email
-  })
+    author: req.session.user.email,
+  });
   article
-  .save()
-  .then((response)=>{
-    console.log(response);
-    res.redirect("/main");
-  })
-  .catch((err)=>{
-    console.log(err);
-  })
-})
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect("/main");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 app.post("/createAccount", (req, res) => {
   const FORM_DATA = req.body;
