@@ -6,56 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-       <link rel="stylesheet" href="css/login.css" />
+       <link rel="stylesheet" href="css/main.css" />
 </head>
 
 <body>
-     <header id="introHeader">
-        <div class="introHeader-inner">
-            <div class="logo">
-                <a href="/">Garden X</a>
+     {{> header}}
+    <main>
+      <div class="hidden-header"></div>
+      <div class="main-inner">
+        <div class="menu_side_a">
+           <div class="menu_side_a_links">
+             <div>
+               <a>Link a</a>
+             </div>
+             <div>
+               <a>Link b</a>
+             </div>
+             <div>
+               <a>Link c</a>
+             </div>
+             <div>
+              <a>Link d</a>
+             </div>
+           </div>
+        </div>
+        <div class="news_feed">
+          <div class="article_card">
+            <div class="article_card_header">
+                <div class="article_card_header_title">
+                  <h1>Title Example</h1>
+                </div>
+                <div class="article_card_header_info">
+                  <p>10/01/2022</p>
+                </div>
             </div>
-            <div class="hamburger-menu-wrapper">
-                <div class="hamburger-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <div class="article_card_image">
+              <img src="/img/spiderman.jpg" alt="">
+            </div>
+            <div class="article_card_description">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt lorem et gravida luctus. Phasellus egenec magna. Aenean nec sem in nunc gravida feugiat ac vcu blandit tortor, condimentum lobortis sem ipsum sed urna. In fringilla lobortis mauris, eget varius quam efficitur id. Proin in sapien nec diam porttitor euismod. Praesent diam nisl, gravida in tortor at, consectetur ullamcorper lorem....</p>
+              <a>Show more</a>
+            </div>
+            <div class="article_card_footer">
+              <div class="article_card_footer_votes">
+                <p>Votes: <b>1000</b></p>
+                <button>Up vote</button>
+                <button>Down vote</button>
+              </div>
+              <div class="article_card_footer_edit_remove_options">
+                <button>Edit/Remove</button>
+              </div>
+            </div>
+          </div>
+          <div class="article_card">
+            <div class="article_card_header">
+                <div class="article_card_header_title">
+                  <h1>Title Example</h1>
                 </div>
-                <div class="menu" style="visibility: hidden">
-                    <nav>
-                        <div class="menu-inner">
-                            <a href="/">Home</a>
-                        </div>
-                    </nav>
+                <div class="article_card_header_info">
+                  <p>10/01/2022</p>
                 </div>
+            </div>
+            <div class="article_card_image">
+              <img src="/img/spiderman.jpg" alt="">
+            </div>
+            <div class="article_card_description">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt lorem et gravida luctus. Phasellus egenec magna. Aenean nec sem in nunc gravida feugiat ac vcu blandit tortor, condimentum lobortis sem ipsum sed urna. In fringilla lobortis mauris, eget varius quam efficitur id. Proin in sapien nec diam porttitor euismod. Praesent diam nisl, gravida in tortor at, consectetur ullamcorper lorem....</p>
+              <a>Show more</a>
+            </div>
+            <div class="article_card_footer">
+              <div class="article_card_footer_votes">
+                <p>Votes: <b>1000</b></p>
+                <button>Up vote</button>
+                <button>Down vote</button>
+              </div>
+              <div class="article_card_footer_edit_remove_options">
+                <button>Edit/Remove</button>
+              </div>
+            </div>
+          </div>
+          <div class="article_card">
+            <div class="article_card_header">
+                <div class="article_card_header_title">
+                  <h1>Title Example</h1>
+                </div>
+                <div class="article_card_header_info">
+                  <p>10/01/2022</p>
+                </div>
+            </div>
+            <div class="article_card_image">
+              <img src="/img/spiderman.jpg" alt="">
+            </div>
+            <div class="article_card_description">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt lorem et gravida luctus. Phasellus egenec magna. Aenean nec sem in nunc gravida feugiat ac vcu blandit tortor, condimentum lobortis sem ipsum sed urna. In fringilla lobortis mauris, eget varius quam efficitur id. Proin in sapien nec diam porttitor euismod. Praesent diam nisl, gravida in tortor at, consectetur ullamcorper lorem....</p>
+              <a>Show more</a>
+            </div>
+            <div class="article_card_footer">
+              <div class="article_card_footer_votes">
+                <p>Votes: <b>1000</b></p>
+                <button>Up vote</button>
+                <button>Down vote</button>
+              </div>
+              <div class="article_card_footer_edit_remove_options">
+                <button>Edit/Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="menu_side_b">
+            <div class="menu_side_b_links">
+              <div>
+                <a href="/addArticle">Write An Article</a>
+              </div>
             </div>
         </div>
-    </header>
-    <main>
-      <br><br> <br><br>  <br><br> <br><br>
-  <div class="row">
-    <div class="col-sm-3">
-      One of three columns
-      <hr>
-       One of three columns
-        <hr>
-        One of three columns
-          <hr>
-         One of three columns
-        <hr>
-          One of three columns
-    </div>
-    <div class="col-sm-6">
-      <h2>Header----------------------------------------------------------------------------------------------------------------<small>10/22/2022</small></h2>
-      <img src""></img>
-      body
-      <h2><small>10,332</small><small>Up Vote</small><small>Down Vote</small><small>Edit</small></h2>
-    </div>
-    <div class="col-sm-3">
-         <a href="/addArticle"><h1>Write An Article</h1></a>
-      <hr>
-    </div>
-  </div>
+      </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
