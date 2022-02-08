@@ -16,6 +16,7 @@ var mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const config = require("./config/config");
+const { response } = require("express");
 const connectionString = config.database_connection_string;
 
 mongoose.connect(connectionString);
@@ -26,6 +27,10 @@ mongoose.connection.on("open", () => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+let today = new Date().toLocaleDateString("en-US");
+
 
 // Configurations
 const HTTP_PORT = process.env.PORT || 8080;
@@ -85,8 +90,8 @@ app.use(
   clientSessions({
     cookieName: "session",
     secret: "super_secret_for_gardenX",
-    duration: 10 * 60 * 1000, //5 min
-    activeDuration: 1000 * 60, //1min
+    duration: 10 * 60 * 1000, // 10 min
+    activeDuration: 1000 * 60, //1 min
   })
 );
 
@@ -127,13 +132,79 @@ app.get("/main", (req, res) => {
     .lean()
     .exec()
     .then((articles) => {
-      console.log(articles);
+      var isMatch = false;
+      articles.forEach((article)=>{
+        if(req.session.user){
+          if(req.session.user.email === article.author){
+          isMatch = true;
+       }
+      }
+      });
       res.render("main", {
         article: articles,
+        isAuthor: isMatch,
         layout: false,
       });
     });
 });
+app.get("/editArticle/:articleId",ensureLogin, (req,res)=>{
+  const articleId = req.params.articleId;
+  articleScheme
+    .findById(articleId)
+    .lean()
+    .exec()
+    .then((article)=>{
+      res.render("editArticle",{
+        user: req.session.user,
+        details: article,
+        editMode: true,
+        style: "/css/forgot_pass.css",
+        layout: false
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+app.post("/editArticle/:articleId", ensureLogin, UPLOAD.single("photo"), async (req,res)=>{
+  const FORM_DATA = req.body;
+  const FORM_FILE = req.file;
+  const articleId = req.params.articleId;
+  if(FORM_FILE){
+    FORM_FILE.path = FORM_FILE.path.replace('public','');
+    var article = await articleScheme.findByIdAndUpdate(articleId,{
+      title: FORM_DATA.title,
+      text: FORM_DATA.desc,
+      fileName: FORM_FILE.path
+    })
+  }else{
+    var article = await articleScheme.findByIdAndUpdate(articleId,{
+      title: FORM_DATA.title,
+      text: FORM_DATA.desc,
+    })
+  }
+  article
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect("/main");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+app.get("/deleteArticle/:articleId",ensureLogin,(req,res)=>{
+  const articleId = req.params.articleId;
+  articleScheme.findByIdAndDelete(articleId)
+  .then((response)=>{
+    console.log(response);
+    res.redirect("/main");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+})
+
 
 app.post("/login", async (req, res) => {
   const username = req.body.email;
@@ -256,6 +327,7 @@ app.post("/createArticle", ensureLogin, UPLOAD.single("photo"), (req, res) => {
   var article = new articleScheme({
     title: FORM_DATA.title,
     text: FORM_DATA.desc,
+    date: today,
     fileName: FORM_FILE.path,
     author: req.session.user.email,
   });

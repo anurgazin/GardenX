@@ -15,6 +15,10 @@ var articleScheme = new Schema({
     type: String,
     required: true
   },
+  date:{
+    type: String,
+    required: true
+  },
   votes: {
       type: Number,
       default: 0

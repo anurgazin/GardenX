@@ -17,16 +17,19 @@
         <div class="menu_side_a">
            <div class="menu_side_a_links">
              <div>
-               <a>Link a</a>
+               <a>Forum</a>
              </div>
              <div>
-               <a>Link b</a>
+               <a>MyPlants</a>
              </div>
              <div>
-               <a>Link c</a>
+               <a>Marketplace</a>
              </div>
              <div>
-              <a>Link d</a>
+              <a>Watering Calendar</a>
+             </div>
+             <div>
+              <a>Photo Recognition</a>
              </div>
            </div>
         </div>
@@ -38,7 +41,7 @@
                   <h1>{{title}}</h1>
                 </div>
                 <div class="article_card_header_info">
-                  <p>10/01/2022</p>
+                  <p>{{date}}</p>
                 </div>
             </div>
             <div class="article_card_image">
@@ -54,9 +57,11 @@
                 <button>Up vote</button>
                 <button>Down vote</button>
               </div>
-              <div class="article_card_footer_edit_remove_options">
-                <button>Edit/Remove</button>
-              </div>
+              {{#if ../isAuthor}}
+                <div class="article_card_footer_edit_remove_options">
+                  <a class="button" href="/editArticle/{{_id}}">Edit/Remove</a>
+               </div>
+              {{/if}}
             </div>
           </div>
           {{/each}}
