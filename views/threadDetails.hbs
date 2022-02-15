@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thread Details</title>
+</head>
+<body>
+    <p>{{details.title}}</p>
+    <p>{{details.text}}</p>
+    <p>{{details.author}}</p>
+    <a href="/editThread/{{details._id}}">Edit Page</a>
+    <form action="/createComment/{{details._id}}" method="post">
+        <textarea style="border: none; height:10vh;"id="comment" name="comment" placeholder="Answer"></textarea><hr><br />
+        <input type="submit"  value="Comment"/>
+    </form>
+    {{#each comment}}
+        <p>{{text}}</p>
+     {{/each}}
+</body>
+</html>

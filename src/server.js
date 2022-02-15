@@ -8,6 +8,8 @@ const smtpTransport = require("nodemailer-smtp-transport");
 const jwt = require("jsonwebtoken");
 var userScheme = require("./schemes/userScheme");
 var articleScheme = require("./schemes/articleScheme");
+var threadScheme = require('./schemes/threadScheme');
+var commentScheme = require('./schemes/commentsScheme');
 const clientSessions = require("client-sessions");
 var multer = require("multer");
 const hbs = require("express-handlebars");
@@ -16,7 +18,6 @@ var mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const config = require("./config/config");
-const { response } = require("express");
 const connectionString = config.database_connection_string;
 
 mongoose.connect(connectionString);
@@ -70,7 +71,6 @@ const STORAGE = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-
 const UPLOAD = multer({ storage: STORAGE });
 
 var transporter = nodemailer.createTransport(
@@ -94,17 +94,24 @@ app.use(
     activeDuration: 1000 * 60, //1 min
   })
 );
-
 // Routes
 app.get("/", function (req, res) {
   res.redirect("/main")
 });
+// GET Routes for Add Pages
 app.get("/addArticle", ensureLogin, (req, res) => {
   res.render("addArticle", {
     style: "/css/forgot_pass.css",
     layout: false,
   });
 });
+app.get("/addThread", ensureLogin, (req, res) => {
+  res.render("addThread", {
+    style: "/css/forgot_pass.css",
+    layout: false,
+  });
+});
+// GET Routes for Regular Pages
 app.get("/myplants", (req, res) => {
   res.render("myplants", {
     user: req.session.user,
@@ -147,6 +154,39 @@ app.get("/main", (req, res) => {
       });
     });
 });
+app.get("/thread", (req, res) => {
+  threadScheme
+    .find({})
+    .lean()
+    .exec()
+    .then((threads) => {
+      res.render("thread", {
+        thread: threads,
+        user: req.session.user,
+        layout: false,
+      });
+    });
+});
+// GET Routes for Details Page
+app.get("/threadDetails/:threadId", function (req, res) {
+  const threadId = req.params.threadId
+  threadScheme
+    .findById(threadId)
+    .lean()
+    .exec()
+    .then((thread) => {
+      commentScheme.find({'thread': threadId}).lean().exec().then((comments)=>{
+        res.render("threadDetails", {
+          user: req.session.user,
+          details: thread,
+          comment: comments,
+          layout: false,
+        });
+      })
+    });
+});
+
+// GET and POST Routes for Edit Pages
 app.get("/editArticle/:articleId",ensureLogin, (req,res)=>{
   const articleId = req.params.articleId;
   articleScheme
@@ -193,6 +233,45 @@ app.post("/editArticle/:articleId", ensureLogin, UPLOAD.single("photo"), async (
       console.log(err);
     });
 })
+
+
+app.get("/editThread/:threadId",ensureLogin, (req,res)=>{
+  const threadId = req.params.threadId;
+  threadScheme
+    .findById(threadId)
+    .lean()
+    .exec()
+    .then((thread)=>{
+      res.render("editThread",{
+        user: req.session.user,
+        details: thread,
+        editMode: true,
+        style: "/css/forgot_pass.css",
+        layout: false
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+app.post("/editThread/:threadId", ensureLogin, async (req,res)=>{
+  const FORM_DATA = req.body;
+  const threadId = req.params.threadId;
+    var thread = await threadScheme.findByIdAndUpdate(threadId,{
+      title: FORM_DATA.title,
+      text: FORM_DATA.desc,
+    })
+  thread
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect("/thread");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+// GET Requests for Delete pages
 app.get("/deleteArticle/:articleId",ensureLogin,(req,res)=>{
   const articleId = req.params.articleId;
   articleScheme.findByIdAndDelete(articleId)
@@ -204,8 +283,19 @@ app.get("/deleteArticle/:articleId",ensureLogin,(req,res)=>{
     console.log(err);
   });
 })
+app.get("/deleteThread/:threadId",ensureLogin,(req,res)=>{
+  const threadId = req.params.threadId;
+  threadScheme.findByIdAndDelete(threadId)
+  .then((response)=>{
+    console.log(response);
+    res.redirect("/thread");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+})
 
-
+// POST Request for LOGIN
 app.post("/login", async (req, res) => {
   const username = req.body.email;
   const password = req.body.password;
@@ -232,6 +322,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// RESET-PWD
 app.post("/forgot", async (req, res) => {
   const email = req.body.email;
   try {
@@ -257,7 +348,6 @@ app.post("/forgot", async (req, res) => {
         console.log("SUCCESS: " + info.response);
       }
     });
-
     console.log(link);
     res.render("forgot", {
       conMsg: `Link has been sent to ${found.email}`,
@@ -296,7 +386,6 @@ app.get("/reset-pwd/:id/:token", async (req, res) => {
     });
   }
 });
-
 app.post("/reset-pwd/:id/:token", async (req, res) => {
   const { id, token } = req.params;
   let password = req.body.password;
@@ -318,7 +407,7 @@ app.post("/reset-pwd/:id/:token", async (req, res) => {
     });
   }
 });
-
+// POST request for create
 app.post("/createArticle", ensureLogin, UPLOAD.single("photo"), (req, res) => {
   const FORM_DATA = req.body;
   var FORM_FILE = req.file;
@@ -342,6 +431,45 @@ app.post("/createArticle", ensureLogin, UPLOAD.single("photo"), (req, res) => {
     });
 });
 
+app.post("/createThread", ensureLogin, (req, res) => {
+  const FORM_DATA = req.body;
+  var thread = new threadScheme({
+    title: FORM_DATA.title,
+    text: FORM_DATA.desc,
+    date: today,
+    author: req.session.user.email,
+  });
+  thread
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect("/thread");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post("/createComment/:threadId", ensureLogin, (req, res) => {
+  const threadId = req.params.threadId;
+  const FORM_DATA = req.body;
+  var comment = new commentScheme({
+    text: FORM_DATA.comment,
+    date: today,
+    thread: threadId,
+    author: req.session.user.email,
+  });
+  comment
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect(`/threadDetails/${threadId}`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+// Registration POST
 app.post("/createAccount", (req, res) => {
   const FORM_DATA = req.body;
   var user = new userScheme({
