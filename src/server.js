@@ -180,6 +180,7 @@ app.get("/threadDetails/:threadId", function (req, res) {
           user: req.session.user,
           details: thread,
           comment: comments,
+          style: "/css/thread_details.css",
           layout: false,
         });
       })

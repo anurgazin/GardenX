@@ -5,13 +5,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Threads</title>
+    <link rel="stylesheet" href="css/thread.css" />
 </head>
 <body>
     {{> header}}
-     {{#each thread}}
-     <a href="/threadDetails/{{_id}}">Details Page</a>
-        <p>Thread TITLE: {{title}}</p>
-     {{/each}}
-     <a href="/addThread">Ask your Question</a>
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            <div class="menu_side_a">
+                <div class="menu_side_a_links">
+                    <div>
+                    <a href="/thread">Forum</a>
+                    </div>
+                    <div>
+                    <a>MyPlants</a>
+                    </div>
+                    <div>
+                    <a>Marketplace</a>
+                    </div>
+                    <div>
+                    <a>Watering Calendar</a>
+                    </div>
+                    <div>
+                    <a>Photo Recognition</a>
+                    </div>
+                </div>
+            </div>
+            <div class="threads">
+                {{#each thread}}
+                <a href="/threadDetails/{{_id}}" class="thread_card">
+                    <div class="thread_card_details">
+                        <div class="thread_card_header">
+                            <div class="thread_card_title">
+                                <h1>{{title}}</h1>
+                            </div>
+                            <div class="thread_card_info">
+                                <p>{{date}}</p>
+                            </div>
+                        </div>
+                        <div class="thread_card_text">
+                            <p>{{trimString text}}...</p>
+                        </div>
+                        <div class="thread_card_footer">
+                            <div class="thread_card_footer_votes">
+                                <p>Votes: <b>{{votes}}</b></p>
+                            </div>
+                            <div class="thread_card_footer_author">
+                                <p>Asked by: {{author}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {{/each}}
+            </div>
+            <div class="menu_side_b">
+                <div class="menu_side_b_links">
+                    <div>
+                        <a href="/addThread">Ask your Question</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+     </main>
 </body>
 </html>
