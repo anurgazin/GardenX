@@ -20,7 +20,7 @@
                <a href="/thread">Forum</a>
              </div>
              <div>
-               <a>MyPlants</a>
+               <a href="/myplants">MyPlants</a>
              </div>
              <div>
                <a>Marketplace</a>
@@ -57,11 +57,11 @@
                 <button>Up vote</button>
                 <button>Down vote</button>
               </div>
-              {{#if ../isAuthor}}
+              {{#isAuthor param1 = author param2 = ../user.email}}
                 <div class="article_card_footer_edit_remove_options">
                   <a class="button" href="/editArticle/{{_id}}">Edit/Remove</a>
                </div>
-              {{/if}}
+              {{/isAuthor}}
             </div>
           </div>
           {{/each}}

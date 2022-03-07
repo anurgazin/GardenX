@@ -18,6 +18,8 @@ var mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const config = require("./config/config");
+const { response } = require("express");
+const commentsScheme = require("./schemes/commentsScheme");
 const connectionString = config.database_connection_string;
 
 mongoose.connect(connectionString);
@@ -62,6 +64,12 @@ hbshelper.handlebars.registerHelper('trimString', function(passedString) {
   var theString = passedString.substring(0,250);
   return new hbshelper.handlebars.SafeString(theString)
 });
+hbshelper.handlebars.registerHelper('isAuthor', function(options){
+  var hash = options.hash;
+  var fnTrue = options.fn;
+  var fnFalse = options.inverse;
+  return hash.param1 === hash.param2 ? fnTrue(this) : fnFalse(this);
+})
 
 
 const STORAGE = multer.diskStorage({
@@ -112,7 +120,7 @@ app.get("/addThread", ensureLogin, (req, res) => {
   });
 });
 // GET Routes for Regular Pages
-app.get("/myplants", (req, res) => {
+app.get("/myplants", ensureLogin,(req, res) => {
   res.render("myplants", {
     user: req.session.user,
     layout: false,
@@ -128,6 +136,10 @@ app.get("/registration", (req, res) => {
     layout: false,
   });
 });
+app.get("/signout", (req,res)=>{
+  req.session.user = undefined;
+  res.redirect("/login");
+})
 app.get("/forgot", (req, res) => {
   res.render("forgot", {
     layout: false,
@@ -139,17 +151,9 @@ app.get("/main", (req, res) => {
     .lean()
     .exec()
     .then((articles) => {
-      var isMatch = false;
-      articles.forEach((article)=>{
-        if(req.session.user){
-          if(req.session.user.email === article.author){
-          isMatch = true;
-       }
-      }
-      });
       res.render("main", {
         article: articles,
-        isAuthor: isMatch,
+        user: req.session.user,
         layout: false,
       });
     });
@@ -272,6 +276,72 @@ app.post("/editThread/:threadId", ensureLogin, async (req,res)=>{
       console.log(err);
     });
 })
+
+// Comment
+app.get("/editComment/:commentId",ensureLogin, (req,res)=>{
+  const commentId = req.params.commentId;
+  commentsScheme
+    .findById(commentId)
+    .lean()
+    .exec()
+    .then((comment)=>{
+      res.render("editComment",{
+        user: req.session.user,
+        details: comment,
+        editMode: true,
+        style: "/css/forgot_pass.css",
+        layout: false
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+app.post("/editComment/:commentId", ensureLogin, async (req,res)=>{
+  const FORM_DATA = req.body;
+  const commentId = req.params.commentId;
+  var comment = await commentsScheme.findByIdAndUpdate(commentId,{
+      text: FORM_DATA.desc,
+    })
+  comment
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect(`/threadDetails/${comment.thread}`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+// User
+app.get("/editUser",ensureLogin,(req,res)=>{
+  res.render("editUser", {
+    details: req.session.user,
+    style: "/css/forgot_pass.css",
+    layout: false
+  })
+})
+
+app.post("/editUser", ensureLogin, async(req,res)=>{
+  const FORM_DATA = req.body;
+  const userId = req.session.user._id;
+  var user = await userScheme.findByIdAndUpdate(userId,{
+    firstName: FORM_DATA.firstName,
+    lastName: FORM_DATA.lastName,
+    email: FORM_DATA.email
+  })
+  user
+  .save()
+  .then((response)=>{
+    console.log(user.email);
+    req.session.user = undefined;
+    res.redirect("/login")
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+})
+
 // GET Requests for Delete pages
 app.get("/deleteArticle/:articleId",ensureLogin,(req,res)=>{
   const articleId = req.params.articleId;
@@ -295,6 +365,17 @@ app.get("/deleteThread/:threadId",ensureLogin,(req,res)=>{
     console.log(err);
   });
 })
+app.get("/deleteComment/:commentId",ensureLogin,(req,res)=>{
+  const commentId = req.params.commentId;
+  commentScheme.findByIdAndDelete(commentId)
+  .then((response)=>{
+    console.log(response);
+    res.redirect("/thread");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+})
 
 // POST Request for LOGIN
 app.post("/login", async (req, res) => {
@@ -309,6 +390,7 @@ app.post("/login", async (req, res) => {
   try {
     const found = await userScheme.findByCredentials(username, password);
     req.session.user = {
+      _id: found._id,
       firstName: found.firstName,
       lastName: found.lastName,
       isAdmin: found.isAdmin,

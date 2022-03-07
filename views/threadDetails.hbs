@@ -48,9 +48,11 @@
                         <h1>Question:</h1>
                         <p>{{details.text}}</p>
                     </div>
+                    {{#isAuthor param1 = details.author param2 = user.email}}
                     <div class="thread_detail_edit_page">
-                        <a href="/editThread/{{details._id}}">Edit Page</a>
+                        <a href="/editThread/{{details._id}}">Edit Thread</a>
                     </div>
+                    {{/isAuthor}}
                     <div class="replies">
                         <div class="replies_title">
                             <h1>Replies</h1>
@@ -68,8 +70,11 @@
                                     <p>Date: {{date}}</p>
                                 </div>
                                 <div class="comment_text">
-                                    <p>{{text}}</p>
+                                    <p style="white-space: pre-wrap">{{text}}</p>
                                 </div>
+                                {{#isAuthor param1 = author param2 = ../user.email}}
+                                    <a href="/editComment/{{_id}}">Edit Comment</a>
+                                {{/isAuthor}}
                             </div>
                         {{/each}}
                     </div>

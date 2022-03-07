@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MyPlants</title>
 </head>
 <body>
-    <table border="1">
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>isAdmin</th>
-        <th>email</th>
-      </tr>
-        <tr>
-          <td>{{user.firstName}}</td>
-          <td>{{user.lastName}}</td>
-          <td>{{user.isAdmin}}</td>
-          <td>{{user.email}}</td>
-        </tr>
-    </table>
+    <form>
+      <label for="name">First name:</label><br>
+      <input type="text" id="name" name="name" value="{{user.firstName}} {{user.lastName}}" disabled><br>
+      <label for="email">Email:</label><br>
+      <input type="text" id="email" name="email" value="{{user.email}}" disabled><br>
+      <label for="admin">Admin Status:</label><br>
+      <input type="text" id="admin" name="admin" value="{{user.isAdmin}}" disabled><br>
+    </form>
+    <a href="/editUser">Edit User Information</a><br>
+    <a href="/signout">Sign out</a>
 </body>
 </html>
