@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace</title>
+</head>
+<body>
+    {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            <div class="menu_side_a">
+                <div class="menu_side_a_links">
+                    <div>
+                    <a href="/thread">Forum</a>
+                    </div>
+                    <div>
+                    <a>MyPlants</a>
+                    </div>
+                    <div>
+                    <a>Marketplace</a>
+                    </div>
+                    <div>
+                    <a>Watering Calendar</a>
+                    </div>
+                    <div>
+                    <a>Photo Recognition</a>
+                    </div>
+                </div>
+            </div>
+            {{#each lots}}
+            <a href="/marketplaceLot/{{_id}}">{{title}}</a>
+            {{/each}}
+            </div>
+            <div class="menu_side_b">
+                <div class="menu_side_b_links">
+                    <div>
+                        <a href="/addLot">Add New Lot</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+     </main>
+</body>
+</html>

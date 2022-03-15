@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lot Details</title>
+</head>
+<body>
+    {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            <div class="menu_side_a">
+                <div class="menu_side_a_links">
+                    <div>
+                    <a href="/thread">Forum</a>
+                    </div>
+                    <div>
+                    <a>MyPlants</a>
+                    </div>
+                    <div>
+                    <a>Marketplace</a>
+                    </div>
+                    <div>
+                    <a>Watering Calendar</a>
+                    </div>
+                    <div>
+                    <a>Photo Recognition</a>
+                    </div>
+                </div>
+            </div>
+            <div class="details">
+                <p>{{details.title}}</p>
+                <p>{{details.description}}</p>
+                <p>{{details.price}}</p>
+                <p>{{details.date}}</p>
+                <p>{{details.contact}}</p>
+                {{#isAuthor param1 = author param2 = ../user._id}}
+                  <a class="button" href="/editArticle/{{_id}}">Edit/Remove</a>
+              {{/isAuthor}}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

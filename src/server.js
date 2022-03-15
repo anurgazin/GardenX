@@ -10,6 +10,7 @@ var userScheme = require("./schemes/userScheme");
 var articleScheme = require("./schemes/articleScheme");
 var threadScheme = require('./schemes/threadScheme');
 var commentScheme = require('./schemes/commentsScheme');
+var marketplaceScheme = require('./schemes/marketplaceScheme');
 const clientSessions = require("client-sessions");
 var multer = require("multer");
 const hbs = require("express-handlebars");
@@ -68,7 +69,7 @@ hbshelper.handlebars.registerHelper('isAuthor', function(options){
   var hash = options.hash;
   var fnTrue = options.fn;
   var fnFalse = options.inverse;
-  return hash.param1 === hash.param2 ? fnTrue(this) : fnFalse(this);
+  return hash.param1 == hash.param2 ? fnTrue(this) : fnFalse(this);
 })
 
 
@@ -80,6 +81,15 @@ const STORAGE = multer.diskStorage({
   },
 });
 const UPLOAD = multer({ storage: STORAGE });
+
+const MARKETPLACE_STORAGE = multer.diskStorage({
+  destination: "./public/img/uploadedImg/marketplace",
+  filename: function (req, file, cb) {
+    console.log("Uploading Photo");
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const MARKETPLACE_UPLOAD = multer({ storage: MARKETPLACE_STORAGE });
 
 var transporter = nodemailer.createTransport(
   smtpTransport({
@@ -116,6 +126,13 @@ app.get("/addArticle", ensureLogin, (req, res) => {
 app.get("/addThread", ensureLogin, (req, res) => {
   res.render("addThread", {
     style: "/css/forgot_pass.css",
+    layout: false,
+  });
+});
+app.get("/addLot", ensureLogin, (req, res) => {
+  res.render("addLot", {
+    style: "/css/forgot_pass.css",
+    user: req.session.user,
     layout: false,
   });
 });
@@ -171,6 +188,19 @@ app.get("/thread", (req, res) => {
       });
     });
 });
+app.get("/marketplace", (req, res) => {
+  marketplaceScheme
+    .find({})
+    .lean()
+    .exec()
+    .then((items) => {
+      res.render("marketplace", {
+        lots: items,
+        user: req.session.user,
+        layout: false,
+      });
+    });
+});
 // GET Routes for Details Page
 app.get("/threadDetails/:threadId", function (req, res) {
   const threadId = req.params.threadId
@@ -188,6 +218,21 @@ app.get("/threadDetails/:threadId", function (req, res) {
           layout: false,
         });
       })
+    });
+});
+
+app.get("/marketplaceLot/:lotId", async function (req, res) {
+  const lotId = req.params.lotId
+  marketplaceScheme
+    .findById(lotId)
+    .lean()
+    .exec()
+    .then((details) => {
+      res.render("marketplaceLot", {
+          user: req.session.user,
+          details: details,
+          layout: false,
+      });
     });
 });
 
@@ -508,6 +553,31 @@ app.post("/createArticle", ensureLogin, UPLOAD.single("photo"), (req, res) => {
     .then((response) => {
       console.log(response);
       res.redirect("/main");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post("/createLot", ensureLogin, MARKETPLACE_UPLOAD.single("photo"), (req, res) => {
+  const FORM_DATA = req.body;
+  var FORM_FILE = req.file;
+  console.log(FORM_FILE.filename);
+  FORM_FILE.path = FORM_FILE.path.replace('public','');
+  var lot = new marketplaceScheme({
+    title: FORM_DATA.title,
+    description: FORM_DATA.desc,
+    contact: FORM_DATA.email,
+    date: today,
+    price: FORM_DATA.price,
+    fileName: FORM_FILE.path,
+    owner: req.session.user._id,
+  });
+  lot
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect("/marketplace");
     })
     .catch((err) => {
       console.log(err);
