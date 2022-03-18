@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketplace</title>
+    <link rel="stylesheet" href="{{style}}"/>
 </head>
 <body>
     {{> header}}
@@ -17,10 +18,10 @@
                     <a href="/thread">Forum</a>
                     </div>
                     <div>
-                    <a>MyPlants</a>
+                    <a href="/myplants">MyPlants</a>
                     </div>
                     <div>
-                    <a>Marketplace</a>
+                    <a href="/marketplace">Marketplace</a>
                     </div>
                     <div>
                     <a>Watering Calendar</a>
@@ -30,9 +31,32 @@
                     </div>
                 </div>
             </div>
-            {{#each lots}}
-            <a href="/marketplaceLot/{{_id}}">{{title}}</a>
-            {{/each}}
+            <div class="marketplace_lots">
+                <div class="marketplace_lots_inner">
+                    <div class="marketplace_title">
+                        <h1>Marketplace</h1>
+                    </div>
+                    <div class="marketplace_body">
+                        {{#each lots}}
+                                <div class="marketplace_lot">
+                                    <div class="marketplace_lot_header">
+                                        <p>{{contact}}</p>
+                                        <p>{{date}}</p>
+                                    </div>
+                                    <div class="marketplace_lot_body">
+                                        <div class="marketplace_lot_body_photo">
+                                            <img src="{{photo}}">
+                                        </div>
+                                        <h3>{{title}}</h3>
+                                    </div>
+                                    <div class="marketplace_lot_footer">
+                                        <p>Price: ${{price}}</p>
+                                        <a class="button" href="/marketplaceLot/{{_id}}"><p>Lot Details</p></a>
+                                    </div>
+                                </div>
+                        {{/each}}
+                    </div>
+                </div>
             </div>
             <div class="menu_side_b">
                 <div class="menu_side_b_links">
@@ -43,7 +67,6 @@
             </div>
         </div>
         </div>
-        
      </main>
 </body>
 </html>

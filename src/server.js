@@ -198,6 +198,7 @@ app.get("/marketplace", (req, res) => {
         lots: items,
         user: req.session.user,
         layout: false,
+        style: "/css/marketplace.css"
       });
     });
 });
@@ -232,6 +233,7 @@ app.get("/marketplaceLot/:lotId", async function (req, res) {
           user: req.session.user,
           details: details,
           layout: false,
+          style: "/css/marketplace.css"
       });
     });
 });

@@ -197,7 +197,7 @@ main {
     justify-content: end;
 }
 
-.article_card_footer_edit_remove_options button {
+.article_card_footer_edit_remove_options .button {
     width: 20%;
     padding: 1rem 1rem;
     font-size: 1rem;
