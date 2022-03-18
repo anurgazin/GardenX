@@ -23,6 +23,10 @@ var lotScheme = new Schema({
     type: String,
     required: true,
   },
+  photo:{
+    default: '',
+    type: String,
+  },
   price: {
     type: Number,
     default: 0,

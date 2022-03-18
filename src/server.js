@@ -570,7 +570,7 @@ app.post("/createLot", ensureLogin, MARKETPLACE_UPLOAD.single("photo"), (req, re
     contact: FORM_DATA.email,
     date: today,
     price: FORM_DATA.price,
-    fileName: FORM_FILE.path,
+    photo: FORM_FILE.path,
     owner: req.session.user._id,
   });
   lot
