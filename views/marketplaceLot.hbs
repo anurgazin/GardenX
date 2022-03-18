@@ -18,10 +18,10 @@
                     <a href="/thread">Forum</a>
                     </div>
                     <div>
-                    <a>MyPlants</a>
+                    <a href="/myplants">MyPlants</a>
                     </div>
                     <div>
-                    <a>Marketplace</a>
+                    <a href="/marketplace">Marketplace</a>
                     </div>
                     <div>
                     <a>Watering Calendar</a>
@@ -54,11 +54,11 @@
                     <div>
                         <a href="/addLot">Add New Lot</a>
                     </div>
+                    {{#isAuthor param1 = details.owner param2 = user._id}}
                     <div>
-                        {{#isAuthor param1 = author param2 = ../user._id}}
-                            <a href="/editArticle/{{_id}}">Edit/Remove</a>
-                        {{/isAuthor}}
+                        <a href="/editLot/{{details._id}}">Edit/Remove</a>
                     </div>
+                    {{/isAuthor}}
                 </div>
             </div>
         </div>
