@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 var Schema = mongoose.Schema;
+mongoose.Promise = require("bluebird");
 
 var userScheme = new Schema({
   firstName: {
@@ -33,12 +34,12 @@ var userScheme = new Schema({
     default: false,
   },
 });
-userScheme.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-  next();
-});
+ userScheme.pre("save", async function (next) {
+   if (this.isModified("password")) {
+     this.password = await bcrypt.hash(this.password, 10);
+   }
+   next();
+ });
 userScheme.statics.findByCredentials = async (email, password) => {
   const user = await mongoose.model("users", userScheme).findOne({ email });
   if (!user) {
@@ -50,4 +51,19 @@ userScheme.statics.findByCredentials = async (email, password) => {
   }
   return user;
 };
+userScheme.statics.findByEmail = async (email)=> {
+  const user = await mongoose.model("users", userScheme).findOne({ email });
+  if (!user) {
+    throw new Error("User is not exist");
+  }
+  return user;
+}
+userScheme.statics.findById = async (_id)=> {
+  const user = await mongoose.model("users", userScheme).findOne({ _id });
+  if (!user) {
+    console.log("Error in FindById")
+    throw new Error("User is not exist");
+  }
+  return user;
+}
 module.exports = mongoose.model("users", userScheme, "Users");

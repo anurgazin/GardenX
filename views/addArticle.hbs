@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Article</title>
+    <link rel="stylesheet" href="{{style}}"/>
+</head>
+<form action="/main" method="get" id="cancel"></form>
+<body>
+    {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            <div class="reset_message">
+                <h1>Create New Article</h1>
+            </div>
+            <div class="forgot_pass_form">
+         <form action="/createArticle" method="post" enctype="multipart/form-data">
+             <label style="font-size: 2.2rem;" for="title" >Title</label><br />
+             <input type="text" id="title" name="title" required placeholder="Title goes here"/><br />
+            <label style="font-size: 2.2rem;" for="photo">Photo Upload</label><br />
+            <input type="file" id="photo" name="photo" /><br />
+            <label style="font-size: 2.2rem;" for="desc">Description</label><br />
+            <textarea style="border: none; height:10vh;"id="desc" name="desc" placeholder="Article Text"></textarea><hr><br />
+            <input type="submit"  value="Create"/>
+            <input type="submit" value="Cancel" form="cancel">
+        </form>
+               
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+    <script src="/js/utils/animation.js"></script>
+</body>
+</html>

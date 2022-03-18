@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{style}}"/>
+    <title>Thread Details</title>
+</head>
+<body>
+    {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            <div class="menu_side_a">
+                <div class="menu_side_a_links">
+                    <div>
+                    <a href="/thread">Forum</a>
+                    </div>
+                    <div>
+                    <a>MyPlants</a>
+                    </div>
+                    <div>
+                    <a>Marketplace</a>
+                    </div>
+                    <div>
+                    <a>Watering Calendar</a>
+                    </div>
+                    <div>
+                    <a>Photo Recognition</a>
+                    </div>
+                </div>
+            </div>
+            <div class="thread">
+                <div class="thread_detail">
+                    <div class="thread_detail_header">
+                        <div class="thread_detail_header_title">
+                            <h1>{{details.title}}</h1>
+                        </div>
+                        <div class="thread_detail_header_info">
+                            <p>Date: {{details.date}}</p>
+                        </div>
+                    </div>
+                    <div class="thread_detail_author">
+                        <p>Asked by: {{details.author}}</p>
+                    </div>
+                    <div class="thread_detail_text">
+                        <h1>Question:</h1>
+                        <p>{{details.text}}</p>
+                    </div>
+                    {{#isAuthor param1 = details.author param2 = user.email}}
+                    <div class="thread_detail_edit_page">
+                        <a href="/editThread/{{details._id}}">Edit Thread</a>
+                    </div>
+                    {{/isAuthor}}
+                    <div class="replies">
+                        <div class="replies_title">
+                            <h1>Replies</h1>
+                        </div>
+                        <div class="replies_answer">
+                            <form action="/createComment/{{details._id}}" method="post">
+                                <textarea id="comment" name="comment" placeholder="Your answer" cols="100", rows="5"></textarea>
+                                <button>Reply</button>
+                            </form>
+                        </div>
+                        {{#each comment}}
+                            <div class="comment">
+                                <div class="comment_header">
+                                    <p>Author: {{author}}</p>
+                                    <p>Date: {{date}}</p>
+                                </div>
+                                <div class="comment_text">
+                                    <p style="white-space: pre-wrap">{{text}}</p>
+                                </div>
+                                {{#isAuthor param1 = author param2 = ../user.email}}
+                                    <a href="/editComment/{{_id}}">Edit Comment</a>
+                                {{/isAuthor}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div class="menu_side_b">
+                <div class="menu_side_b_links">
+                    <div>
+                        <a href="/addThread">Ask your Question</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

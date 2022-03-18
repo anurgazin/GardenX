@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{style}}"/>
+    <title>Reset Password</title>
+</head>
+<body>
+    {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            <div class="reset_message">
+                <h1>Reset Password for {{user.email}}</h1>
+            </div>
+            <div class="forgot_pass_form">
+                <form action="/reset-pwd/{{user._id}}/{{token}}" method="post">
+                    <div class="email-input inputForm">
+                        <label for="password">New Password</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="button">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+    <script src="/js/utils/animation.js"></script>
+</body>
+</html>

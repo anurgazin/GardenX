@@ -1,0 +1,27 @@
+<header id="introHeader">
+    <div class="introHeader-inner">
+        <div class="logo">
+            <a href="/" style="text-decoration: none;">Garden X</a>
+        </div>
+        <div class="hamburger-menu-wrapper">
+            <div class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu" style="visibility: hidden">
+                <nav>
+                    <div class="menu-inner">
+                        {{#if firstName}}
+                        <a href="/logout">Logout</a>
+                        {{else}}
+                        <a id="menuLoginButton">Login</a>
+                        <a href="/registration">Sign up</a>
+                        {{/if}}
+                        <a href="/">Home</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
