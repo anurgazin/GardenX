@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lot Details</title>
+    <link rel="stylesheet" href="{{style}}"/>
 </head>
 <body>
     {{> header}}
@@ -31,14 +32,34 @@
                 </div>
             </div>
             <div class="details">
-                <p>{{details.title}}</p>
-                <p>{{details.description}}</p>
-                <p>{{details.price}}</p>
-                <p>{{details.date}}</p>
-                <p>{{details.contact}}</p>
-                {{#isAuthor param1 = author param2 = ../user._id}}
-                  <a class="button" href="/editArticle/{{_id}}">Edit/Remove</a>
-              {{/isAuthor}}
+                <div class="details_photo">
+                    <img src="{{details.photo}}">
+                </div>
+                <div class="details_header">
+                    <h1>{{details.title}}</h1>
+                </div>
+                <div class="details_body">
+                    <p>{{details.description}}</p>
+                    <div class="details_body_date">
+                      <p>{{details.date}}</p>  
+                    </div>
+                </div>
+                <div class="details_footer">
+                    <p>Price: {{details.price}}</p>
+                    <p>Contact details: {{details.contact}}</p>
+                </div>
+            </div>
+            <div class="menu_side_b">
+                <div class="menu_side_b_links">
+                    <div>
+                        <a href="/addLot">Add New Lot</a>
+                    </div>
+                    <div>
+                        {{#isAuthor param1 = author param2 = ../user._id}}
+                            <a href="/editArticle/{{_id}}">Edit/Remove</a>
+                        {{/isAuthor}}
+                    </div>
+                </div>
             </div>
         </div>
     </main>
