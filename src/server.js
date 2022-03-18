@@ -286,7 +286,60 @@ app.post("/editArticle/:articleId", ensureLogin, UPLOAD.single("photo"), async (
     });
 })
 
+// Edit Lot(GET and POST requests)
+app.get("/editLot/:lotId",ensureLogin, (req,res)=>{
+  const lotId = req.params.lotId;
+  marketplaceScheme
+    .findById(lotId)
+    .lean()
+    .exec()
+    .then((lot)=>{
+      res.render("editLot",{
+        user: req.session.user,
+        details: lot,
+        editMode: true,
+        style: "/css/forgot_pass.css",
+        layout: false
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
 
+app.post("/editLot/:lotId", ensureLogin, MARKETPLACE_UPLOAD.single("photo"), async (req,res)=>{
+  const FORM_DATA = req.body;
+  const FORM_FILE = req.file;
+  const lotId = req.params.lotId;
+  if(FORM_FILE){
+    FORM_FILE.path = FORM_FILE.path.replace('public','');
+    var lot = await marketplaceScheme.findByIdAndUpdate(lotId,{
+      title: FORM_DATA.title,
+      description: FORM_DATA.desc,
+      contact: FORM_DATA.email,
+      price: FORM_DATA.price,
+      photo: FORM_FILE.path
+    })
+  }else{
+    var lot = await marketplaceScheme.findByIdAndUpdate(lotId,{
+      title: FORM_DATA.title,
+      description: FORM_DATA.desc,
+      contact: FORM_DATA.email,
+      price: FORM_DATA.price,
+    })
+  }
+  lot
+    .save()
+    .then((response) => {
+      console.log(response);
+      res.redirect("/marketplace");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})
+
+// Edit Thread (GET and POST requests)
 app.get("/editThread/:threadId",ensureLogin, (req,res)=>{
   const threadId = req.params.threadId;
   threadScheme
@@ -396,6 +449,17 @@ app.get("/deleteArticle/:articleId",ensureLogin,(req,res)=>{
   .then((response)=>{
     console.log(response);
     res.redirect("/main");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+})
+app.get("/deleteLot/:lotId",ensureLogin,(req,res)=>{
+  const lotId = req.params.lotId;
+  marketplaceScheme.findByIdAndDelete(lotId)
+  .then((response)=>{
+    console.log(response);
+    res.redirect("/marketplace");
   })
   .catch((err) => {
     console.log(err);
