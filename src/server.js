@@ -15,6 +15,7 @@ const clientSessions = require("client-sessions");
 var multer = require("multer");
 const hbs = require("express-handlebars");
 var mongoose = require("mongoose");
+const TeachableMachine = require("@sashido/teachablemachine-node");
 
 mongoose.Promise = require("bluebird");
 
@@ -33,6 +34,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let today = new Date().toLocaleDateString("en-US");
+
+// Load model
+const URL = "./public/model/";
+const modelURL = URL + "model.json";
+const metadataURL = URL + "metadata.json";
+  
+// Load model
+const model = new TeachableMachine({
+  modelUrl: "https://teachablemachine.withgoogle.com/models/fLhMEwnCB/"
+})
 
 // Configurations
 const HTTP_PORT = process.env.PORT || 8080;
@@ -87,6 +98,15 @@ const MARKETPLACE_STORAGE = multer.diskStorage({
   },
 });
 const MARKETPLACE_UPLOAD = multer({ storage: MARKETPLACE_STORAGE });
+
+const CV_STORAGE = multer.diskStorage({
+  destination: "./public/img/uploadedImg/computer_vision",
+  filename: function (req, file, cb) {
+    console.log("Uploading Photo");
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const CV_UPLOAD = multer({ storage: CV_STORAGE });
 
 var transporter = nodemailer.createTransport(
   smtpTransport({
@@ -150,7 +170,12 @@ app.get("/registration", (req, res) => {
     layout: false,
   });
 });
-app.get("/signout", (req, res) => {
+app.get("/test", (req, res) => {
+  res.render("test", {
+    layout: false
+  })
+})
+app.get("/signout", (req,res)=>{
   req.session.user = undefined;
   res.redirect("/login");
 });
@@ -661,6 +686,19 @@ app.post(
   }
 );
 
+app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
+  const image = req.file;
+  console.log(image)
+  return model.classify({
+    imageUrl: image.path.replace('public/','http://localhost:8080/'),
+  }).then((predictions) => {
+    console.log(predictions);
+    return res.json(predictions);
+  }).catch((e) => {
+    console.error(e);
+    res.status(500).send("Something went wrong!")
+  });
+})
 app.post(
   "/createLot",
   ensureLogin,
