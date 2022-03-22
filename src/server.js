@@ -688,9 +688,9 @@ app.post(
 
 app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
   const image = req.file;
-  console.log(image)
+  console.log(image.path.replace('public\\','http://localhost:8080/'))
   return model.classify({
-    imageUrl: image.path.replace('public/','http://localhost:8080/'),
+    imageUrl: image.path.replace('public\\','http://localhost:8080/'),
   }).then((predictions) => {
     console.log(predictions);
     return res.json(predictions);
