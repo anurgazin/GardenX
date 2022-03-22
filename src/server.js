@@ -234,6 +234,7 @@ app.get("/articleDetails/:articleId", function (req, res) {
         user: req.session.user,
         details: article,
         layout: false,
+        style: "/css/main.css",
       });
     });
 });
