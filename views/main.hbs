@@ -49,13 +49,11 @@
             </div>
             <div class="article_card_description">
               <p>{{trimString text}}...</p>
-              <a>Show more</a>
+              <a href="/articleDetails/{{_id}}">Show more</a>
             </div>
             <div class="article_card_footer">
               <div class="article_card_footer_votes">
-                <p>Votes: <b>{{votes}}</b></p>
-                <button>Up vote</button>
-                <button>Down vote</button>
+                <p>Created By: {{author}}</p>
               </div>
               {{#isAuthor param1 = author param2 = ../user.email}}
                 <div class="article_card_footer_edit_remove_options">
