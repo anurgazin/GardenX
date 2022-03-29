@@ -10,6 +10,8 @@ var userScheme = require("./schemes/userScheme");
 var articleScheme = require("./schemes/articleScheme");
 var threadScheme = require("./schemes/threadScheme");
 var commentScheme = require("./schemes/commentsScheme");
+var plantScheme = require("./schemes/plantsScheme");
+var plantsListScheme = require("./schemes/plantsListScheme");
 var marketplaceScheme = require("./schemes/marketplaceScheme");
 const clientSessions = require("client-sessions");
 var multer = require("multer");
@@ -39,11 +41,11 @@ let today = new Date().toLocaleDateString("en-US");
 const URL = "./public/model/";
 const modelURL = URL + "model.json";
 const metadataURL = URL + "metadata.json";
-  
+
 // Load model
 const model = new TeachableMachine({
-  modelUrl: "https://teachablemachine.withgoogle.com/models/fLhMEwnCB/"
-})
+  modelUrl: "https://teachablemachine.withgoogle.com/models/fLhMEwnCB/",
+});
 
 // Configurations
 const HTTP_PORT = process.env.PORT || 8080;
@@ -67,6 +69,13 @@ function ensureLogin(req, res, next) {
     next();
   }
 }
+function ensureAdmin(req, res, next) {
+  if (!req.session.user.isAdmin) {
+    res.redirect("/main");
+  } else {
+    next();
+  }
+}
 
 var hbshelper = hbs.create({});
 
@@ -80,6 +89,15 @@ hbshelper.handlebars.registerHelper("isAuthor", function (options) {
   var fnFalse = options.inverse;
   return hash.param1 == hash.param2 ? fnTrue(this) : fnFalse(this);
 });
+
+const PLANTS_STORAGE = multer.diskStorage({
+  destination: "./public/img/uploadedImg/plants",
+  filename: function (req, file, cb) {
+    console.log("Uploading Photo");
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const PLANTS_UPLOAD = multer({ storage: PLANTS_STORAGE });
 
 const ARTICLE_STORAGE = multer.diskStorage({
   destination: "./public/img/uploadedImg/article",
@@ -125,8 +143,8 @@ app.use(
   clientSessions({
     cookieName: "session",
     secret: "super_secret_for_gardenX",
-    duration: 10 * 60 * 1000, // 10 min
-    activeDuration: 1000 * 60, //1 min
+    duration: 10 * 60 * 10000, // 100 min
+    activeDuration: 10000 * 60, //10 min
   })
 );
 // Routes
@@ -140,8 +158,20 @@ app.get("/addArticle", ensureLogin, (req, res) => {
     layout: false,
   });
 });
+app.get("/createPlant", ensureAdmin, ensureLogin, (req, res) => {
+  res.render("createPlant", {
+    style: "/css/forgot_pass.css",
+    layout: false,
+  });
+});
 app.get("/addThread", ensureLogin, (req, res) => {
   res.render("addThread", {
+    style: "/css/forgot_pass.css",
+    layout: false,
+  });
+});
+app.get("/addPlant", ensureLogin, (req, res) => {
+  res.render("addPlant", {
     style: "/css/forgot_pass.css",
     layout: false,
   });
@@ -155,10 +185,17 @@ app.get("/addLot", ensureLogin, (req, res) => {
 });
 // GET Routes for Regular Pages
 app.get("/myplants", ensureLogin, (req, res) => {
-  res.render("myplants", {
-    user: req.session.user,
-    layout: false,
-  });
+  plantsListScheme
+    .find({ user: req.session.user._id })
+    .lean()
+    .exec()
+    .then((plantList) => {
+      console.log(plantList[0]);
+      res.render("myplants", {
+        user: req.session.user,
+        layout: false,
+      });
+    });
 });
 app.get("/login", (req, res) => {
   res.render("login", {
@@ -172,10 +209,10 @@ app.get("/registration", (req, res) => {
 });
 app.get("/test", (req, res) => {
   res.render("test", {
-    layout: false
-  })
-})
-app.get("/signout", (req,res)=>{
+    layout: false,
+  });
+});
+app.get("/signout", (req, res) => {
   req.session.user = undefined;
   res.redirect("/login");
 });
@@ -495,6 +532,29 @@ app.post("/editUser", ensureLogin, async (req, res) => {
 });
 
 // GET Requests for Delete pages
+
+// Test for Remove Plant from Plant List
+
+app.get("/removePlant", ensureLogin, (req, res) => {
+  const plantId = "624266df7a0d906ec0d6898e";
+  plantsListScheme
+    .updateOne(
+      { user: req.session.user._id },
+      {
+        $pull: {
+          plants:{_id: plantId},
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response);
+      res.redirect("/myplants");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 app.get("/deleteArticle/:articleId", ensureLogin, (req, res) => {
   const articleId = req.params.articleId;
   articleScheme
@@ -688,17 +748,20 @@ app.post(
 
 app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
   const image = req.file;
-  console.log(image.path.replace('public\\','http://localhost:8080/'))
-  return model.classify({
-    imageUrl: image.path.replace('public\\','http://localhost:8080/'),
-  }).then((predictions) => {
-    console.log(predictions);
-    return res.json(predictions);
-  }).catch((e) => {
-    console.error(e);
-    res.status(500).send("Something went wrong!")
-  });
-})
+  console.log(image.path.replace("public\\", "http://localhost:8080/"));
+  return model
+    .classify({
+      imageUrl: image.path.replace("public\\", "http://localhost:8080/"),
+    })
+    .then((predictions) => {
+      console.log(predictions);
+      return res.json(predictions);
+    })
+    .catch((e) => {
+      console.error(e);
+      res.status(500).send("Something went wrong!");
+    });
+});
 app.post(
   "/createLot",
   ensureLogin,
@@ -729,8 +792,85 @@ app.post(
   }
 );
 
+app.post(
+  "/createPlantType",
+  ensureLogin,
+  ensureAdmin,
+  PLANTS_UPLOAD.single("photo"),
+  (req, res) => {
+    const FORM_DATA = req.body;
+    var FORM_FILE = req.file;
+    console.log(FORM_FILE.filename);
+    FORM_FILE.path = FORM_FILE.path.replace("public", "");
+    var plant = new plantScheme({
+      name: FORM_DATA.title,
+      tips: FORM_DATA.tips,
+      schedule: FORM_DATA.schedule,
+      photo: FORM_FILE.path,
+    });
+    plant
+      .save()
+      .then((response) => {
+        console.log(response);
+        res.redirect("/main");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
+
+app.post("/createPlant", ensureLogin, (req, res) => {
+  const FORM_DATA = req.body;
+  plantsListScheme.exists({ user: req.session.user._id }, function (err, doc) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (doc) {
+        plantsListScheme
+          .updateOne(
+            { user: req.session.user._id },
+            {
+              $push: {
+                plants: {
+                  title: FORM_DATA.title,
+                  type: FORM_DATA.type,
+                },
+              },
+            }
+          )
+          .then((response) => {
+            res.redirect("/myplants");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        var plant = new plantsListScheme({
+          user: req.session.user._id,
+          plants: [
+            {
+              title: FORM_DATA.title,
+              type: FORM_DATA.type,
+            },
+          ],
+        });
+        plant
+          .save()
+          .then((response) => {
+            res.redirect("/myplants");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  });
+});
+
 app.post("/createThread", ensureLogin, (req, res) => {
   const FORM_DATA = req.body;
+  console.log(FORM_DATA.title);
   var thread = new threadScheme({
     title: FORM_DATA.title,
     text: FORM_DATA.desc,
