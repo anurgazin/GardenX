@@ -34,7 +34,7 @@ main {
     left: 0;
     height:90vh;
     width:20%;
-    border-right: #C4C4C4 0.3px solid;
+    border-right: #1B4332 0.3px solid;
 }
 
 .menu_side_a_links {
@@ -47,7 +47,7 @@ main {
 .menu_side_a_links div {
     width:85%;
     margin: 2em auto;
-    border-bottom: #C4C4C4 0.3px solid;
+    border-bottom: #1B4332 0.3px solid;
 }
 
 .menu_side_a_links a {
@@ -60,7 +60,7 @@ main {
     right: 0;
     height: 90vh;
     width:20%;
-    border-left: #C4C4C4 0.3px solid;
+    border-left: #1B4332 0.3px solid;
 }
 
 .menu_side_b_links {
@@ -73,7 +73,7 @@ main {
 .menu_side_b_links div {
     width:85%;
     margin: 2em auto;
-    border-bottom: #C4C4C4 0.3px solid;
+    border-bottom: #1B4332 0.3px solid;
 }
 
 .menu_side_b_links a {
@@ -101,10 +101,11 @@ main {
     display:flex;
     justify-content: flex-start;
     align-items: center;
+    margin-top: 10vh;
 }
 
 .marketplace_title h1 {
-    font-size: 3.5rem;
+    font-size: 5rem;
     font-weight: 500;
 }
 
@@ -116,12 +117,11 @@ main {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 3rem;
-    row-gap: 3rem;
 }
 
 
 .marketplace_lot {
-    min-height: 400px;
+    height: 200px;
     background-color: #6AB490;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
@@ -158,12 +158,6 @@ main {
     flex: 1;
 }
 
-.marketplace_lot_body_photo img {
-    object-fit: cover;
-    width: 100%;
-    max-height: 100%;
-    border-radius: 10px;
-}
 
 .marketplace_lot_body h3 {
     flex:2;

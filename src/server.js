@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 var path = require("path");
+var upath = require("upath");
 var bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 var nodemailer = require("nodemailer");
@@ -748,12 +749,11 @@ app.post(
 
 app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
   const image = req.file;
-  console.log(path.normalize(image.path).replace("public/", "http://localhost:8080/"))
-  console.log(image.path.replace("public\\", "http://localhost:8080/"));
-  console.log(image.path.replace(path.normalize("public\\"), "http://localhost:8080/"))
+  var path2 = image.path.replace("public/", "http://localhost:8080/");
+  console.log(upath.normalizeSafe(path2));
   return model
     .classify({
-      imageUrl: path.normalize(image.path).replace("public/", "http://localhost:8080/"),
+      imageUrl: upath.normalize(image.path).replace("public/", "http://localhost:8080/"),
     })
     .then((predictions) => {
       console.log(predictions);

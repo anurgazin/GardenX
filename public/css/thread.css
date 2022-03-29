@@ -34,7 +34,7 @@ main {
     left: 0;
     height:90vh;
     width:20%;
-    border-right: #C4C4C4 0.3px solid;
+    border-right: #1B4332 0.3px solid;
 }
 
 .menu_side_a_links {
@@ -47,7 +47,7 @@ main {
 .menu_side_a_links div {
     width:85%;
     margin: 2em auto;
-    border-bottom: #C4C4C4 0.3px solid;
+    border-bottom: #1B4332 0.3px solid;
 }
 
 .menu_side_a_links a {
@@ -60,7 +60,7 @@ main {
     right: 0;
     height: 90vh;
     width:20%;
-    border-left: #C4C4C4 0.3px solid;
+    border-left: #1B4332 0.3px solid;
 }
 
 .menu_side_b_links {
@@ -73,7 +73,7 @@ main {
 .menu_side_b_links div {
     width:85%;
     margin: 2em auto;
-    border-bottom: #C4C4C4 0.3px solid;
+    border-bottom: #1B4332 0.3px solid;
 }
 
 .menu_side_b_links a {
