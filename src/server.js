@@ -213,6 +213,7 @@ app.get("/registration", (req, res) => {
 app.get("/photoRecognition", (req, res) => {
   res.render("photoRecognition", {
     layout: false,
+    style: "/css/plant_recognition.css",
   });
 });
 app.get("/signout", (req, res) => {

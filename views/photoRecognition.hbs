@@ -6,13 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Recognition</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{style}}"/>
 </head>
 
 <body>
-    {{> sideMenu}}
-    <form action="/classifyImage" method="post" enctype="multipart/form-data">
-        <input type="file" id="photo" accept=".jpg, .jpeg, .png" name="photo" required/>
-        <input type="submit"  value="Classify"/>
-    </form>
+    {{> header}}
+    <main>
+      <div class="hidden-header"></div>
+      <div class="main-inner">
+            {{> sideMenu}}
+            <div class="computer_vision">
+                <div class="computer_vision_header">
+                    <h1>Welcome to Plant Recognition</h1>
+                </div>
+                <div class="computer_vision_upload_photo">
+                    <h3>Discover a plant by capturing and uploading a photo</h3>
+                    <form action="/classifyImage" method="post" enctype="multipart/form-data">
+                        <input type="file" id="photo" class="photo_input" accept=".jpg, .jpeg, .png" name="photo" required/>
+                        <label for="photo">Choose or upload photo</label>
+                        <button>Classify</button>
+                    </form>
+                </div>
+                <div class="computer_vision_features">
+                    <div class="computer_vision_feature">
+                        <div class="computer_vision_feature_photo_plant">
+                            <h3>
+                                Just upload a photo
+                            </h3>
+                        </div>
+                        <div class="computer_vision_feature_text">
+                            <div class="computer_vision_feature_text_header">
+                                <h3>Instant Information</h3>
+                            </div>
+                            <div class="computer_vision_feature_text_body">
+                                <p>Get instant information about your plant. Everything you need know:</p>
+                                <ul>
+                                    <li>Description</li>
+                                    <li>Steps to grow</li>
+                                    <li>Advices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="computer_vision_feature">
+                        <div class="computer_vision_feature_text">
+                            <div class="computer_vision_feature_text_header">
+                                <h3>Using Artificial Intelligence</h3>
+                            </div>
+                            <div class="computer_vision_feature_text_body">
+                                <p>Our platforms is powered by Machine Learning technologies - Computer Vision, which allows us to maximize the efficience to bring all relevent information to the user.</p>
+                            </div>
+                        </div>
+                        <div class="computer_vision_feature_photo_ai">
+                            <h3>
+                                AI Powered App
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+    </main>
 </body>
 </html>
