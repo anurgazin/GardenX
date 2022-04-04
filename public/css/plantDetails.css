@@ -1,0 +1,277 @@
+@import "./components/__global__.css";
+@import "./components/header.css";
+
+main {
+    z-index: 10;
+    position: absolute;
+    height: 100vh;
+    min-height: 100vh;
+    width: 100%;
+    min-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.hidden-header {
+    width: 100%;
+    position: relative;
+    height: 10vh;
+}
+
+.main-inner {
+    position: relative;
+    width: 100%;
+    min-width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.menu_side_a {
+    position: fixed;
+    left: 0;
+    height: 90vh;
+    width: 20%;
+    border-right: #1B4332 0.3px solid;
+}
+
+.menu_side_a_links {
+    margin-top: 15em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu_side_a_links div {
+    width: 85%;
+    margin: 2em auto;
+    border-bottom: #1B4332 0.3px solid;
+}
+
+.menu_side_a_links a {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.menu_side_b {
+    position: fixed;
+    right: 0;
+    height: 90vh;
+    width: 20%;
+    border-left: #1B4332 0.3px solid;
+}
+
+.menu_side_b_links {
+    margin-top: 15em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu_side_b_links div {
+    width: 85%;
+    margin: 2em auto;
+    border-bottom: #1B4332 0.3px solid;
+}
+
+.menu_side_b_links a {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.marketplace_lots {
+    position: absolute;
+    left: 50%;
+    /* position the left edge of the element at the middle of the parent */
+    transform: translate(-50%, 0);
+    /* This is a shorthand of
+                                         translateX(-50%) and translateY(-50%) */
+    width: 60%;
+    min-height: 90vh;
+}
+
+.marketplace_lots_inner {
+    width: 80%;
+    margin: 0 auto;
+    min-height: 90vh;
+}
+
+.marketplace_title {
+    min-height: 10vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10vh;
+}
+
+.marketplace_title h1 {
+    font-size: 5rem;
+    font-weight: 500;
+}
+
+.marketplace_body {
+    margin-top: 2vh;
+    width: 100%;
+    overflow-y: auto;
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 3rem;
+}
+
+
+.marketplace_lot {
+    height: 200px;
+    background-color: #6AB490;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.marketplace_lot_header {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    height: 2vh;
+    margin: 2vh auto 0 auto;
+}
+
+.marketplace_lot_header p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+}
+
+.marketplace_lot_body {
+    width: 90%;
+    margin: 0 auto;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.marketplace_lot_body_photo {
+    flex: 1;
+}
+
+
+.marketplace_lot_body h3 {
+    flex: 2;
+    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+}
+
+.marketplace_lot_footer {
+    flex: 2;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.marketplace_lot_footer p {
+    flex: 1;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+}
+
+.button {
+    flex: 1;
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: white;
+    border: 0.3px #4A4A4A solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button p {
+    text-align: center;
+    color: green;
+}
+
+
+.details {
+    position: absolute;
+    left: 50%;
+    /* position the left edge of the element at the middle of the parent */
+    transform: translate(-50%, 0);
+    /* This is a shorthand of
+                                         translateX(-50%) and translateY(-50%) */
+    width: 60%;
+    min-height: 90vh;
+}
+
+.details_photo {
+    width: 80%;
+    height: 500px;
+    margin: 5vh auto;
+}
+
+.details_photo img {
+    object-fit: cover;
+    width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+}
+
+.details_header {
+    width: 80%;
+    margin: 0 auto 2.5vh auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.details_header h1 {
+    font-size: 3rem;
+    font-weight: 500;
+}
+
+.details_body {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.details_body p {
+    font-weight: 400;
+    font-size: 2rem;
+}
+
+.details_body_date {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.details_footer {
+    width: 80%;
+    margin: 5vh auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.details_footer p {
+    font-weight: 400;
+    font-size: 2.5rem;
+    margin: 1.2vh 0;
+}

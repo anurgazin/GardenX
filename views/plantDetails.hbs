@@ -3,21 +3,40 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href={{style}} type="text/css">
     <title>{{details.name}}</title>
   </head>
   <body>
-      {{> sideMenu}}
-    <img
-      src="{{details.photo}}"
-      alt="{{details.name}}"
-      height="400px"
-      width="auto"
-    />
-    <h2>Tips: </h2>
-    {{#each tips}}
-        <p>{{this}}</p>
-    {{/each}}
-    <h2>Schedule: </h2>
-    <p>{{details.schedule}}</p>
+      {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            {{> sideMenu}}
+            <div class="details">
+                <div class="details_photo">
+                    <img src="{{details.photo}}"  alt={{details.name}} width="auto">
+                </div>
+                <div class="details_header">
+                    <h1> {{details.name}}</h1> 
+                </div>
+                <div class="details_body">
+                    <h1>Tips: </h1>
+                        <br>
+                    {{#each tips}}
+                    <p>{{this}}</p>
+                    {{/each}}
+                </div>
+                <div class="details_footer">
+                  <h1>Schedule: </h1>
+                  <p>{{details.schedule}}</p> 
+                </div>
+            </div>
+            <div class="menu_side_b">
+                <div class="menu_side_b_links">
+                </div>
+            </div>
+          
+        </div>
+    </main>
   </body>
 </html>

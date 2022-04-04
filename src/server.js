@@ -278,6 +278,7 @@ app.get("/plantDetails/:plantType", function (req, res) {
         details: plant[0],
         tips: plant[0].tips.split("\n"),
         layout: false,
+        style: "/css/plantDetails.css",
       });
     })
     .catch((err) => {
