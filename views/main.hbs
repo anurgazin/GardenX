@@ -14,25 +14,7 @@
     <main>
       <div class="hidden-header"></div>
       <div class="main-inner">
-        <div class="menu_side_a">
-           <div class="menu_side_a_links">
-             <div>
-               <a href="/thread">Forum</a>
-             </div>
-             <div>
-               <a href="/myplants">MyPlants</a>
-             </div>
-             <div>
-               <a href="/marketplace">Marketplace</a>
-             </div>
-             <div>
-              <a>Watering Calendar</a>
-             </div>
-             <div>
-              <a href="/test">Photo Recognition</a>
-             </div>
-           </div>
-        </div>
+        {{> sideMenu}}
         <div class="news_feed">
          {{#each article}}
           <div class="article_card">
@@ -55,11 +37,6 @@
               <div class="article_card_footer_votes">
                 <p>Created By: {{author}}</p>
               </div>
-              {{#isAuthor param1 = author param2 = ../user.email}}
-                <div class="article_card_footer_edit_remove_options">
-                  <a class="button" href="/editArticle/{{_id}}">Edit/Remove</a>
-               </div>
-              {{/isAuthor}}
             </div>
           </div>
           {{/each}}

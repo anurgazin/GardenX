@@ -61,7 +61,7 @@ main {
     transform: translate(-50%,0); /* This is a shorthand of
                                          translateX(-50%) and translateY(-50%) */
     width:60%;
-    overflow-y: auto;
+    /*overflow-y: auto;   /*если не нужно удали  */
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -25,6 +25,7 @@ mongoose.Promise = require("bluebird");
 const config = require("./config/config");
 const { response } = require("express");
 const commentsScheme = require("./schemes/commentsScheme");
+const plantsScheme = require("./schemes/plantsScheme");
 const connectionString = config.database_connection_string;
 
 mongoose.connect(connectionString);
@@ -191,9 +192,10 @@ app.get("/myplants", ensureLogin, (req, res) => {
     .lean()
     .exec()
     .then((plantList) => {
-      console.log(plantList[0]);
+      console.log(plantList[0].plants);
       res.render("myplants", {
         user: req.session.user,
+        plants: plantList[0].plants,
         layout: false,
       });
     });
@@ -208,8 +210,8 @@ app.get("/registration", (req, res) => {
     layout: false,
   });
 });
-app.get("/test", (req, res) => {
-  res.render("test", {
+app.get("/photoRecognition", (req, res) => {
+  res.render("photoRecognition", {
     layout: false,
   });
 });
@@ -263,6 +265,25 @@ app.get("/marketplace", (req, res) => {
     });
 });
 // GET Routes for Details Page
+app.get("/plantDetails/:plantType", function (req, res) {
+  const type = req.params.plantType;
+  plantScheme
+    .find({ name: type })
+    .lean()
+    .exec()
+    .then((plant) => {
+      //console.log(plant[0].tips.split("\n"))
+      res.render("plantDetails", {
+        user: req.session.user,
+        details: plant[0],
+        tips: plant[0].tips.split("\n"),
+        layout: false,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 app.get("/threadDetails/:threadId", function (req, res) {
   const threadId = req.params.threadId;
   threadScheme
@@ -523,7 +544,7 @@ app.post("/editUser", ensureLogin, async (req, res) => {
   user
     .save()
     .then((response) => {
-      console.log(user.email);
+      //console.log(user.email);
       req.session.user = undefined;
       res.redirect("/login");
     })
@@ -536,14 +557,14 @@ app.post("/editUser", ensureLogin, async (req, res) => {
 
 // Test for Remove Plant from Plant List
 
-app.get("/removePlant", ensureLogin, (req, res) => {
-  const plantId = "624266df7a0d906ec0d6898e";
+app.get("/removePlant/:plantId", ensureLogin, (req, res) => {
+  const plantId = req.params.plantId;
   plantsListScheme
     .updateOne(
       { user: req.session.user._id },
       {
         $pull: {
-          plants:{_id: plantId},
+          plants: { _id: plantId },
         },
       }
     )
@@ -624,7 +645,7 @@ app.post("/login", async (req, res) => {
       isAdmin: found.isAdmin,
       email: found.email,
     };
-    res.render("myplants", { user: req.session.user, layout: false });
+    res.redirect("/myplants");
   } catch (e) {
     res.render("login", {
       errorMsg: "Login or Password is not correct!",
@@ -750,10 +771,12 @@ app.post(
 app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
   const image = req.file;
   var path2 = image.path.replace("public/", "http://localhost:8080/");
-  console.log(upath.normalizeSafe(path2));
+  //console.log(upath.normalizeSafe(path2));
   return model
     .classify({
-      imageUrl: upath.normalize(image.path).replace("public/", "http://localhost:8080/"),
+      imageUrl: upath
+        .normalize(image.path)
+        .replace("public/", "http://localhost:8080/"),
     })
     .then((predictions) => {
       console.log(predictions);
@@ -771,7 +794,7 @@ app.post(
   (req, res) => {
     const FORM_DATA = req.body;
     var FORM_FILE = req.file;
-    console.log(FORM_FILE.filename);
+    //console.log(upath.normalizeSafe(FORM_FILE.path));
     FORM_FILE.path = FORM_FILE.path.replace("public", "");
     var lot = new marketplaceScheme({
       title: FORM_DATA.title,
@@ -779,7 +802,7 @@ app.post(
       contact: FORM_DATA.email,
       date: today,
       price: FORM_DATA.price,
-      photo: FORM_FILE.path,
+      photo: upath.normalizeSafe(FORM_FILE.path),
       owner: req.session.user._id,
     });
     lot
@@ -923,10 +946,7 @@ app.post("/createAccount", (req, res) => {
     .then((response) => {
       console.log(response);
       console.log("I am here");
-      res.render("myplants", {
-        user: req.session.user,
-        layout: false,
-      });
+      res.redirect("/myplants");
     })
     .catch((err) => {
       console.log(err);
