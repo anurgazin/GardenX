@@ -91,10 +91,13 @@ hbshelper.handlebars.registerHelper("isAuthor", function (options) {
   var fnFalse = options.inverse;
   return hash.param1 == hash.param2 ? fnTrue(this) : fnFalse(this);
 });
-hbshelper.handlebars.registerHelper('select', function( selected, options ){
-  return options.fn(this).replace(
-    new RegExp(' value=\"' + selected.toLowerCase() + '\"'),
-    '$& selected="selected"');
+hbshelper.handlebars.registerHelper("select", function (selected, options) {
+  return options
+    .fn(this)
+    .replace(
+      new RegExp(' value="' + selected.toLowerCase() + '"'),
+      '$& selected="selected"'
+    );
 });
 
 const PLANTS_STORAGE = multer.diskStorage({
@@ -214,23 +217,24 @@ app.get("/myplants", ensureLogin, (req, res) => {
       });
     });
 });
-app.get("/knowledgeBase", (req,res)=>{
+app.get("/knowledgeBase", (req, res) => {
   plantsScheme
-  .find({})
-  .lean()
-  .exec()
-  .then((plants)=>{
-    //console.log(plants);
-    res.render("knowledgeBase",{
-      user: req.session.user,
-      plants: plants,
-      layout: false
+    .find({})
+    .lean()
+    .exec()
+    .then((plants) => {
+      //console.log(plants);
+      res.render("knowledgeBase", {
+        user: req.session.user,
+        plants: plants,
+        layout: false,
+        style: "/css/kbase.css",
+      });
     })
-  })
-  .catch((err)=>{
-    console.log(err);
-  })
-})
+    .catch((err) => {
+      console.log(err);
+    });
+});
 app.get("/login", (req, res) => {
   res.render("login", {
     layout: false,
@@ -813,13 +817,13 @@ app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
     })
     .then((predictions) => {
       console.log(predictions[0]);
-      res.render("photoRecognition",{
+      res.render("photoRecognition", {
         user: req.session.user,
         passed: true,
         plant: predictions[0],
         layout: false,
         style: "/css/plant_recognition.css",
-      })
+      });
       //return res.json(predictions);
     })
     .catch((e) => {
