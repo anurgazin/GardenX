@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base</title>
+</head>
+<body>
+    {{> header}}
+    <main>
+        {{> sideMenu}}
+        {{#each plants}}
+        <a href="/plantDetails/{{name}}">
+            <img src="{{photo}}" alt="{{name}}" height="80px" width="auto">
+            <h2>{{name}}</h2>
+        </a>
+        {{/each}}
+    </main>    
+</body>
+</html>

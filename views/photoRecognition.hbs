@@ -27,6 +27,13 @@
                         <button>Classify</button>
                     </form>
                 </div>
+                {{#if passed}}
+                    <div class="computer_vision_popup">
+                        <p>{{plant.class}}</p>
+                        <a class="button" href="/addPlant/{{plant.class}}">Add Plant</a>
+                        <button id="close">Close</button>
+                    </div>
+                {{/if}}
                 <div class="computer_vision_features">
                     <div class="computer_vision_feature">
                         <div class="computer_vision_feature_photo_plant">
@@ -68,4 +75,5 @@
       </div>
     </main>
 </body>
+<script src="./photoRec.js"></script>
 </html>

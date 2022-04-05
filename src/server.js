@@ -91,6 +91,11 @@ hbshelper.handlebars.registerHelper("isAuthor", function (options) {
   var fnFalse = options.inverse;
   return hash.param1 == hash.param2 ? fnTrue(this) : fnFalse(this);
 });
+hbshelper.handlebars.registerHelper('select', function( selected, options ){
+  return options.fn(this).replace(
+    new RegExp(' value=\"' + selected.toLowerCase() + '\"'),
+    '$& selected="selected"');
+});
 
 const PLANTS_STORAGE = multer.diskStorage({
   destination: "./public/img/uploadedImg/plants",
@@ -178,6 +183,15 @@ app.get("/addPlant", ensureLogin, (req, res) => {
     layout: false,
   });
 });
+app.get("/addPlant/:plantType", ensureLogin, (req, res) => {
+  var plantType = req.params.plantType;
+  res.render("addPlant", {
+    passed: true,
+    type: plantType,
+    style: "/css/forgot_pass.css",
+    layout: false,
+  });
+});
 app.get("/addLot", ensureLogin, (req, res) => {
   res.render("addLot", {
     style: "/css/forgot_pass.css",
@@ -200,6 +214,23 @@ app.get("/myplants", ensureLogin, (req, res) => {
       });
     });
 });
+app.get("/knowledgeBase", (req,res)=>{
+  plantsScheme
+  .find({})
+  .lean()
+  .exec()
+  .then((plants)=>{
+    //console.log(plants);
+    res.render("knowledgeBase",{
+      user: req.session.user,
+      plants: plants,
+      layout: false
+    })
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
+})
 app.get("/login", (req, res) => {
   res.render("login", {
     layout: false,
@@ -772,7 +803,7 @@ app.post(
 
 app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
   const image = req.file;
-  var path2 = image.path.replace("public/", "http://localhost:8080/");
+  //var path2 = image.path.replace("public/", "http://localhost:8080/");
   //console.log(upath.normalizeSafe(path2));
   return model
     .classify({
@@ -781,8 +812,15 @@ app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
         .replace("public/", "http://localhost:8080/"),
     })
     .then((predictions) => {
-      console.log(predictions);
-      return res.json(predictions);
+      console.log(predictions[0]);
+      res.render("photoRecognition",{
+        user: req.session.user,
+        passed: true,
+        plant: predictions[0],
+        layout: false,
+        style: "/css/plant_recognition.css",
+      })
+      //return res.json(predictions);
     })
     .catch((e) => {
       console.error(e);

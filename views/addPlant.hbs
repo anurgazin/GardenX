@@ -22,11 +22,20 @@
             <input type="text" id="title" name="title" required placeholder="Title goes here"/><br />
             <label for="type">Choose a type:</label><br />
             <select name="type" id="type">
-                <option value="cucumber" selected>Cucumber</option>
-                <option value="lettuce">Lettuce</option>
-                <option value="onion">Onion</option>
-                <option value="potato">Potato</option>
-                <option value="tomato">Tomato</option>
+                {{#if passed}}
+                    {{#select type}}
+                        <option value="cucumber">Cucumber</option>
+                        <option value="lettuce">Lettuce</option>
+                        <option value="onion">Onion</option>
+                        <option value="potato">Potato</option>
+                        <option value="tomato">Tomato</option>
+                    {{/select}}
+                {{/if}}
+                        <option value="cucumber">Cucumber</option>
+                        <option value="lettuce">Lettuce</option>
+                        <option value="onion">Onion</option>
+                        <option value="potato">Potato</option>
+                        <option value="tomato">Tomato</option>
             </select>
             <br />
             <input type="submit"  value="Create"/>
