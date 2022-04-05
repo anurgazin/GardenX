@@ -55,32 +55,6 @@ main {
     font-weight: 500;
 }
 
-.menu_side_b {
-    position: fixed;
-    right: 0;
-    height: 90vh;
-    width: 20%;
-    border-left: #1B4332 0.3px solid;
-}
-
-.menu_side_b_links {
-    margin-top: 15em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.menu_side_b_links div {
-    width: 85%;
-    margin: 2em auto;
-    border-bottom: #1B4332 0.3px solid;
-}
-
-.menu_side_b_links a {
-    font-size: 2rem;
-    font-weight: 500;
-}
-
 .marketplace_lots {
     position: absolute;
     left: 50%;
