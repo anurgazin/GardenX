@@ -15,6 +15,27 @@
       <div class="hidden-header"></div>
       <div class="main-inner">
             {{> sideMenu}}
+            {{#if passed}}
+                <div class="computer_vision_popup show">
+                    <div class="computer_vision_popup_menu">
+                        <div class="recognized_plant_header">
+                            <h1>{{plant.class}}</h1>
+                        </div>
+                        <div class="recognized_plant_image" style="background: url({{photo}}); background-repeat: no-repeat; background-position: center; background-size:cover">
+                        </div>
+                        <div class="recognized_plant_body">
+                            <h3>Tips:</h3>
+                            {{#each tips}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                        <div class="recognized_plant_footer">
+                            <a class="button" href="/addPlant/{{plant.class}}">Add Plant</a>
+                            <button id="close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
             <div class="computer_vision">
                 <div class="computer_vision_header">
                     <h1>Welcome to Plant Recognition</h1>
@@ -27,13 +48,6 @@
                         <button>Classify</button>
                     </form>
                 </div>
-                {{#if passed}}
-                    <div class="computer_vision_popup">
-                        <p>{{plant.class}}</p>
-                        <a class="button" href="/addPlant/{{plant.class}}">Add Plant</a>
-                        <button id="close">Close</button>
-                    </div>
-                {{/if}}
                 <div class="computer_vision_features">
                     <div class="computer_vision_feature">
                         <div class="computer_vision_feature_photo_plant">
@@ -75,5 +89,5 @@
       </div>
     </main>
 </body>
-<script src="./photoRec.js"></script>
+<script src="{{js}}"></script>
 </html>

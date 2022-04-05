@@ -813,12 +813,23 @@ app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
     })
     .then((predictions) => {
       console.log(predictions[0]);
-      res.render("photoRecognition",{
-        user: req.session.user,
-        passed: true,
-        plant: predictions[0],
-        layout: false,
-        style: "/css/plant_recognition.css",
+      plantsScheme
+      .find({"name": predictions[0].class.toLowerCase()})
+      .lean()
+      .exec()
+      .then((recognized)=>{
+        console.log(recognized);
+        res.render("photoRecognition",{
+          user: req.session.user,
+          passed: true,
+          plant: predictions[0],
+          recognized: recognized[0],
+          tips: recognized[0].tips.split("\n"),
+          photo: upath.normalizeSafe(recognized[0].photo),
+          layout: false,
+          style: "/css/plant_recognition.css",
+          js: "/js/utils/animation.js"
+        })
       })
       //return res.json(predictions);
     })
@@ -827,6 +838,7 @@ app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
       res.status(500).send("Something went wrong!");
     });
 });
+
 app.post(
   "/createLot",
   ensureLogin,
