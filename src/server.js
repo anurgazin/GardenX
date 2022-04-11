@@ -815,7 +815,7 @@ app.post("/classifyImage", CV_UPLOAD.single("photo"), (req, res) => {
     .classify({
       imageUrl: upath
         .normalize(image.path)
-        .replace("public/", "http://localhost:8080/"),
+        .replace("public/", "https://garden-x.herokuapp.com/"),
     })
     .then((predictions) => {
       console.log(predictions[0]);
