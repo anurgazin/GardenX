@@ -22,10 +22,12 @@
                     <div class="marketplace_body">
                         
         {{#each plants}}
+        <a href="/plantDetails/{{name}}">
         <div class="marketplace_lot" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{photo}}); background-repeat: no-repeat; background-position: center; background-size:cover">
             <img src="{{photo}}" alt="{{name}}" height="200px" width="auto">
            <h2>{{name}}</h2>                
         </div>
+        </a>
         {{/each}}
                     
                     </div>
