@@ -7,32 +7,12 @@
     <title>Registration</title>
   </head>
   <body>
-    <header id="introHeader">
-        <div class="introHeader-inner">
-            <div class="logo">
-                <a href="/">Garden X</a>
-            </div>
-            <div class="hamburger-menu-wrapper">
-                <div class="hamburger-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="menu" style="visibility: hidden">
-                    <nav>
-                        <div class="menu-inner">
-                            <a href="/">Home</a>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+    {{> header}}
     <main>
       <div class="hidden-header"></div>
       <div class="main-inner">
             <div class="sidePhoto">
-                <img src="/img/spiderman.jpg" alt="">
+                <img src="/img/registration_page_photo.jpg" alt="">
             </div>
             <div class="registration">
                 <div class="registration-inner">
@@ -60,11 +40,6 @@
                                 placeholder="Last name">
                           </div>
                           <div class="password-input inputForm">
-                            {{#if errorPassMsg}}
-                            <p class="errorMessage">{{errorPassMsg}}</p>
-                            {{/if}}
-                            <p class="errorMessage" id="errorMessage_pass">
-                            </p>
                             <label for="password">Create password</label>
                             <input type="password" name="password" id="password" required="required">
                           </div>
