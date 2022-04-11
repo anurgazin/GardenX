@@ -38,7 +38,7 @@
               <div>
                 <a href="/addArticle">Write An Article</a><br>
                 <hr>
-                 {{#isAuthor param1 = details.author param2 = ../user.email}}
+                 {{#isAuthor param1 = details.author param2 = user.email}}
                   <a href="/editArticle/{{details._id}}">Edit/Remove</a>
               {{/isAuthor}}
               </div>
