@@ -15,6 +15,10 @@ var plantScheme = new Schema({
     type: String,
     required: true,
   },
+  photo:{
+    default: '',
+    type: String,
+  }
 });
 
 module.exports = mongoose.model("plants", plantScheme, "Plants");

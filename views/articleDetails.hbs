@@ -4,47 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>{{details.title}}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href={{style}} />
 </head>
-
 <body>
      {{> header}}
-    <main>
+   <main>
       <div class="hidden-header"></div>
       <div class="main-inner">
         {{> sideMenu}}
         <div class="news_feed">
-         {{#each article}}
-          <div class="article_card">
+         <div class="article_card article_card_details">
             <div class="article_card_header">
                 <div class="article_card_header_title">
-                  <h1>{{title}}</h1>
+                  <h1>{{details.title}}</h1>
+                  <h4>Created By:{{details.author}}</h4>
                 </div>
                 <div class="article_card_header_info">
                   <p>{{date}}</p>
                 </div>
             </div>
             <div class="article_card_image">
-              <img src="../{{fileName}}" alt="Image">
+               <img src="{{details.fileName}}" alt="Photo">
             </div>
             <div class="article_card_description">
-              <p>{{trimString text}}...</p>
-              <a href="/articleDetails/{{_id}}">Show more</a>
+              <p>{{details.text}}</p>
             </div>
-            <div class="article_card_footer">
-              <div class="article_card_footer_votes">
-                <p>Created By: {{author}}</p>
-              </div>
-            </div>
-          </div>
-          {{/each}}
+        </div>
         </div>
         <div class="menu_side_b">
             <div class="menu_side_b_links">
               <div>
-                <a href="/addArticle">Write An Article</a>
+                <a href="/addArticle">Write An Article</a><br>
+                <hr>
+                 {{#isAuthor param1 = author param2 = ../user.email}}
+                  <a href="/editArticle/{{details._id}}">Edit/Remove</a>
+              {{/isAuthor}}
               </div>
             </div>
         </div>
@@ -55,3 +51,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+
+
+

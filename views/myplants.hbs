@@ -13,25 +13,7 @@
     <main>
       <div class="hidden-header"></div>
       <div class="main-inner">
-        <div class="menu_side_a">
-           <div class="menu_side_a_links">
-             <div>
-               <a href="/thread">Forum</a>
-             </div>
-             <div>
-               <a href="/myplants">MyPlants</a>
-             </div>
-             <div>
-               <a href="/marketplace">Marketplace</a>
-             </div>
-             <div>
-              <a>Watering Calendar</a>
-             </div>
-             <div>
-              <a>Photo Recognition</a>
-             </div>
-           </div>
-        </div>
+        {{> sideMenu}}
         <div class="user_info">
           <div class="user_info_title">
             <h1>Personal Details</h1>
@@ -48,12 +30,32 @@
             <div class="user_info_buttons">
               <a class="button" href="/editUser">Edit User Information</a>
               <a class="button" href="/signout">Sign out</a>
+              <a class="button" href="/addPlant">Add Plant</a>
             </div>
           </form>
+          
+           <div class="menu_side_b">
+                <div class="menu_side_b_links">
+                  <div class="plant-list">
+                   <div class="list">
+                    {{#plants}}
+                     <h1>
+                       <a href="/plantDetails/{{type}}">{{title}}</a>
+                       </h1>
+                       <a href="/removePlant/{{_id}}">
+                       <small style="color: black;">Remove Plant</small>
+                       </a>
+                       <hr>
+                    {{/plants}}
+                  </div>
+                 </div>
+                </div>
+            </div>
         </div>
       </div>
     </main>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

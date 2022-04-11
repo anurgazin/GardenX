@@ -51,17 +51,41 @@ main {
 }
 
 .menu_side_a_links a {
+    text-decoration: none;
     font-size: 2rem;
     font-weight: 500;
 }
+.menu_side_b {
+    position: fixed;
+    right: 0;
+    height: 90vh;
+    width: 20%;
+    border-left: 0.5px #338161 solid;
+}
 
+.menu_side_b_links {
+    margin-top: 25em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu_side_b_links div {
+    width: 85%;
+    margin: 2em auto;   
+}
+
+.menu_side_b_links a {
+    font-size: 2rem;
+    font-weight: 500;    
+}
 .user_info {
     position: absolute;
     left: 50%; /* position the left edge of the element at the middle of the parent */
     transform: translate(-50%,0); /* This is a shorthand of
                                          translateX(-50%) and translateY(-50%) */
     width:60%;
-    overflow-y: auto;
+    /*overflow-y: auto;   /*если не нужно удали  */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -124,7 +148,7 @@ input {
     width: 20%;
     padding: 1rem 1.5rem;
     border:none;
-    background-color: #4A4A4A;
+    background-color: #338161;
     color: #F5F5F5;
     font-size: 1.5rem;
     font-weight: 500;

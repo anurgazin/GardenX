@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base</title>
+    <link rel="stylesheet" href={{style}}>
+</head>
+<body>
+     {{> header}}
+    <main>
+        <div class="hidden-header"></div>
+        <div class="main-inner">
+            {{> sideMenu}}
+            <div class="marketplace_lots">
+                <div class="marketplace_lots_inner">
+                    <div class="marketplace_title">
+                        <h1>Knowledge Base</h1>
+                        <hr>
+                    </div>
+                    <div class="marketplace_body">
+                        
+        {{#each plants}}
+        <div class="marketplace_lot" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{photo}}); background-repeat: no-repeat; background-position: center; background-size:cover">
+            <img src="{{photo}}" alt="{{name}}" height="200px" width="auto">
+           <h2>{{name}}</h2>                
+        </div>
+        {{/each}}
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="menu_side_b">
+                <div class="menu_side_b_links">
+
+                </div>
+            </div>
+        </div>
+        </div>
+     </main>
+</body>
+</html>

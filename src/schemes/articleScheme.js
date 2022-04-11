@@ -19,10 +19,6 @@ var articleScheme = new Schema({
     type: String,
     required: true
   },
-  votes: {
-      type: Number,
-      default: 0
-  },
   fileName: {
     default: '',
     type: String,
