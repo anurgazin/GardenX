@@ -138,13 +138,10 @@ const CV_UPLOAD = multer({ storage: CV_STORAGE });
 
 var transporter = nodemailer.createTransport(
   smtpTransport({
-    service: "yandex",
-    host: "smtp.yandex.com",
-    port: 465,
-    secure: true,
+    service: "gmail",
     auth: {
-      user: "x.garden@yandex.ru", //your email account
-      pass: "Prj_666_Garden", // your password
+      user: "vacationroyal4@gmail.com", //your email account
+      pass: "vacROYAL@1984", // your password
     },
   })
 );
@@ -209,13 +206,18 @@ app.get("/myplants", ensureLogin, (req, res) => {
     .lean()
     .exec()
     .then((plantList) => {
-      console.log(plantList[0].plants);
       res.render("myplants", {
         user: req.session.user,
         plants: plantList[0].plants,
         layout: false,
       });
-    });
+    })
+    .catch(()=>{
+      res.render("myplants", {
+        user: req.session.user,
+        layout: false,
+      });
+    })
 });
 app.get("/knowledgeBase", (req, res) => {
   plantsScheme
@@ -705,7 +707,7 @@ app.post("/forgot", async (req, res) => {
     const link = `http://localhost:${HTTP_PORT}/reset-pwd/${found._id}/${token}`;
 
     var mailOptions = {
-      from: "x.garden@yandex.ru",
+      from: "vacationroyal4@gmail.com",
       to: found.email,
       subject: "Password Change",
       html: `Hello,<br> Please Click on the link to change your password.<br><a href="${link}">Click here</a>`,
@@ -1002,10 +1004,13 @@ app.post("/createAccount", (req, res) => {
     .save()
     .then((response) => {
       console.log(response);
-      console.log("I am here");
       res.redirect("/myplants");
     })
     .catch((err) => {
+      res.render("register", {
+        err: true,
+        layout: false,
+      });
       console.log(err);
     });
 });
