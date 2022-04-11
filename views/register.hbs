@@ -42,10 +42,9 @@
                     <div class="regForm">
                       <form action="/createAccount" method="POST" id="registrationForm">
                           <div class="email-input inputForm">
-                            {{#if errorEmailMsg}}
-                            <p class="errorMessage">{{errorEmailMsg}}</p>
+                            {{#if err}}
+                            <p class="errorMessage">This e-mail is already in use</p>
                             {{/if}}
-                            <p class="errorMessage" id="errorMessage_email"></p>
                             <label for="email">Email Address</label>
                             <input type="email" name="email" id="email" maxlength="75" placeholder="test@email.com"
                                 required="required">
